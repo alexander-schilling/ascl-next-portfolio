@@ -11,7 +11,7 @@ export function AboutSection({ content }: AboutSectionProps) {
   return (
     <SectionShell id="about" className="bg-surface-container-low">
       <div className="grid grid-cols-1 items-center gap-20 lg:grid-cols-2">
-        <div className="relative order-2 lg:order-1">
+        <div className="relative order-1 lg:order-1">
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-container-high shadow-2xl">
             <Image src={content.portraitUrl} alt={content.heading} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
@@ -21,7 +21,7 @@ export function AboutSection({ content }: AboutSectionProps) {
           </div>
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div className="order-2 lg:order-2">
           <h2 className="mb-8 font-headline text-4xl font-bold">{content.heading}</h2>
           <div className="space-y-6 text-lg text-on-surface-variant">
             {content.paragraphs.map((paragraph) => (

@@ -17,8 +17,12 @@ export function GamingSection({ content }: GamingSectionProps) {
             <Image src={content.imageUrl} alt="" fill className="object-cover grayscale" sizes="33vw" />
           </div>
 
-          <div className="relative z-10 grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-            <div>
+            <div className="relative z-10 flex flex-col gap-16 lg:grid lg:grid-cols-2 lg:items-center">
+              <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl md:hidden">
+                <Image src={content.imageUrl} alt="" fill className="object-cover opacity-80" sizes="100vw" />
+              </div>
+
+              <div className="lg:order-1">
               <SectionIntro title={content.heading} description={content.description} className="mb-8" />
 
               <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -44,7 +48,7 @@ export function GamingSection({ content }: GamingSectionProps) {
               </div>
             </div>
 
-            <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl">
+              <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl hidden md:block lg:order-2">
               <Image src={content.imageUrl} alt="" fill className="object-cover opacity-80" sizes="(min-width: 1024px) 50vw, 100vw" />
             </div>
           </div>

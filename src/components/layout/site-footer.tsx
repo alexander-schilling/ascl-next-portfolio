@@ -17,7 +17,7 @@ export function SiteFooter({ brand, brandLogoUrl, note, links }: SiteFooterProps
 
   return (
     <footer className="w-full bg-slate-900 py-12">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 px-8 md:flex-row">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 px-8 md:flex-row md:justify-between">
         <div className="font-headline text-lg text-slate-200">
           {brandLogoUrl
             ? (
@@ -32,7 +32,7 @@ export function SiteFooter({ brand, brandLogoUrl, note, links }: SiteFooterProps
               )
             : brand}
         </div>
-        <div className="text-sm text-slate-400">© {currentYear} {note}</div>
+        <div className="text-center text-sm text-slate-400">© {currentYear} {note}</div>
         <div className="flex gap-6">
           {links.map((link) => (
             <a

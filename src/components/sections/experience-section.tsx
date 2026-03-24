@@ -28,7 +28,7 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
 
   return (
     <SectionShell id="experience" className="bg-surface">
-        <div className="mb-24 flex flex-col items-end gap-12 text-center md:flex-row md:text-left">
+        <div className="mb-24 flex flex-col items-center gap-12 text-center md:items-end md:flex-row md:text-left">
           <div className="flex-1">
             <SectionIntro
               eyebrow={eyebrow}
@@ -59,6 +59,20 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                   <span className="h-2 w-2 rounded-full bg-primary" />
                 </div>
 
+                {item.imageUrl && (
+                  <div className="md:hidden mb-6">
+                    <div className="group relative aspect-video overflow-hidden rounded-xl bg-surface-container-highest shadow-2xl">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.role}
+                        fill
+                        className="object-cover opacity-40 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                        sizes="100vw"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-12">
                   <div className={isLeftAligned ? "md:order-1" : "md:order-2"}>
                     <div className="rounded-xl bg-surface-container-low p-8 shadow-[0_12px_40px_rgba(218,226,253,0.04)] md:ml-10 md:mr-10">
@@ -76,8 +90,8 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                     </div>
                   </div>
 
-                  <div className={isLeftAligned ? "hidden md:order-2 md:block" : "hidden md:order-1 md:block"}>
-                    {item.imageUrl ? (
+                  {item.imageUrl ? (
+                      <div className={`hidden md:block ${isLeftAligned ? "md:order-2" : "md:order-1"}`}>
                       <div className="group relative aspect-video overflow-hidden rounded-xl bg-surface-container-highest shadow-2xl md:mx-10">
                         <Image
                           src={item.imageUrl}
@@ -87,8 +101,8 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                           sizes="(min-width: 768px) 50vw, 100vw"
                         />
                       </div>
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                 </div>
               </article>
             );
