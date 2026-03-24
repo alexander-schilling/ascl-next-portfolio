@@ -15,7 +15,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           src={content.backgroundImageUrl}
           alt=""
           fill
-          className="scale-105 object-cover opacity-15"
+          className="object-cover object-center opacity-15"
           priority
           sizes="100vw"
         />

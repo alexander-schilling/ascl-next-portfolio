@@ -32,6 +32,14 @@ NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false
 - El switch de idioma preserva la ruta actual, los query params y el `#hash` de seccion.
 - En `development` muestra un aviso con faltantes. En `production`, ese aviso solo aparece si `NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=true`.
 
+## Identifiers esperados en `portfolio_files`
+
+- `hero_background`: fondo de la seccion Hero (`hero.backgroundImageUrl`)
+- `resume`: CV publico (`resumeUrl`)
+- `brand_logo`: logo header/footer (`brandLogoUrl`)
+- `profile_picture`: retrato de About (`about.portraitUrl`)
+- `hispano_banner`: imagen principal de Gaming (`gaming.imageUrl`)
+
 ## Catalogo de `content.type` esperado
 
 Estos son los tipos minimos que el frontend espera en `portfolio_content`.

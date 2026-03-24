@@ -60,6 +60,7 @@ export type PassionContent = {
 export type GamingLink = {
   label: string;
   href: string;
+  identifier?: string;
 };
 
 export type GamingContent = {

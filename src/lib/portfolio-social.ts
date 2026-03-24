@@ -27,6 +27,7 @@ export function buildOrderedSocialLinks(
     return {
       label: socialItem.label,
       href: socialItem.url,
+      identifier,
     };
   });
 

@@ -16,7 +16,7 @@ describe("getPortfolioData", () => {
     vi.restoreAllMocks();
   });
 
-  it("maps CMS file identifiers into resume, brand, about and hispano images", async () => {
+  it("maps CMS file identifiers into hero, resume, brand, about and hispano images", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -48,12 +48,19 @@ describe("getPortfolioData", () => {
             description: "Community banner",
             file: "https://cms.alexanderschilling.cl/api/files/portfolio_files/hispano/banner.jpg",
           },
+          {
+            identifier: "hero_background",
+            title: "Hero Background",
+            description: "Hero background image",
+            file: "https://cms.alexanderschilling.cl/api/files/portfolio_files/hero/hero-bg.jpg",
+          },
         ],
       }),
     } as Response);
 
     const result = await getPortfolioData("en");
 
+    expect(result.siteContent.hero.backgroundImageUrl).toBe("https://cms.alexanderschilling.cl/api/files/portfolio_files/hero/hero-bg.jpg");
     expect(result.siteContent.resumeUrl).toBe(
       "https://cms.alexanderschilling.cl/api/files/portfolio_files/gw771mejnky51wi/cv_en_public_schilling_alexander_gebb59bwqe.pdf",
     );
@@ -75,6 +82,7 @@ describe("getPortfolioData", () => {
 
     const result = await getPortfolioData("en");
 
+    expect(result.siteContent.hero.backgroundImageUrl).toBe(fallbackSiteContent.hero.backgroundImageUrl);
     expect(result.siteContent.resumeUrl).toBe(fallbackSiteContent.resumeUrl);
     expect(result.siteContent.brandLogoUrl).toBe(fallbackSiteContent.brandLogoUrl);
     expect(result.siteContent.about.portraitUrl).toBe(fallbackSiteContent.about.portraitUrl);
@@ -93,6 +101,7 @@ describe("getPortfolioData", () => {
 
     const result = await getPortfolioData("en");
 
+    expect(result.siteContent.hero.backgroundImageUrl).toBe(fallbackSiteContent.hero.backgroundImageUrl);
     expect(result.siteContent.resumeUrl).toBe(fallbackSiteContent.resumeUrl);
   });
 });

@@ -234,6 +234,7 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
   const brandLogoFile = fileMap.get("brand_logo");
   const profilePictureFile = fileMap.get("profile_picture");
   const hispanoBannerFile = fileMap.get("hispano_banner");
+  const heroBackgroundFile = fileMap.get("hero_background") ?? fileMap.get("banner_background");
   const gamingLinksResult = buildOrderedSocialLinks(
     payload.social,
     GAMING_SOCIAL_IDENTIFIERS,
@@ -267,6 +268,10 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
 
   if (!hispanoBannerFile?.file) {
     warnings.push("Falta files identifier 'hispano_banner' para Comunidad Hispano; se usa fallback local.");
+  }
+
+  if (!heroBackgroundFile?.file) {
+    warnings.push("Falta files identifier 'hero_background' para el fondo del Hero; se usa fallback local.");
   }
 
   if (gamingLinksResult.missingIdentifiers.length > 0) {
@@ -317,6 +322,7 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
         ...fallbackSiteContent.hero.secondaryCta,
         label: pickText("banner_work_button", fallbackSiteContent.hero.secondaryCta.label),
       },
+      backgroundImageUrl: heroBackgroundFile?.file || fallbackSiteContent.hero.backgroundImageUrl,
     },
     about: {
       ...fallbackSiteContent.about,

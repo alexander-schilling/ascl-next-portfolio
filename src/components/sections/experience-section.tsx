@@ -66,7 +66,7 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                         src={item.imageUrl}
                         alt={item.role}
                         fill
-                        className="object-cover opacity-40 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                        className="object-cover opacity-40 transition-all duration-500 group-hover:opacity-100"
                         sizes="100vw"
                       />
                     </div>
@@ -97,7 +97,7 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                           src={item.imageUrl}
                           alt={item.role}
                           fill
-                          className="object-cover opacity-40 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                          className="object-cover opacity-40 transition-all duration-500 group-hover:opacity-100"
                           sizes="(min-width: 768px) 50vw, 100vw"
                         />
                       </div>

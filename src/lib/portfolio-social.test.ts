@@ -23,9 +23,9 @@ describe("buildOrderedSocialLinks", () => {
     );
 
     expect(result.links).toEqual([
-      { label: "Discord", href: "https://discord.gg/hispano" },
-      { label: "Website", href: "https://hispano.example.com" },
-      { label: "Instagram", href: "https://instagram.com/hispano" },
+      { label: "Discord", href: "https://discord.gg/hispano", identifier: "hispano_discord" },
+      { label: "Website", href: "https://hispano.example.com", identifier: "hispano_web" },
+      { label: "Instagram", href: "https://instagram.com/hispano", identifier: "hispano_instagram" },
     ]);
     expect(result.missingIdentifiers).toEqual([]);
   });
@@ -42,7 +42,7 @@ describe("buildOrderedSocialLinks", () => {
     );
 
     expect(result.links).toEqual([
-      { label: "LinkedIn", href: "https://linkedin.com/in/example" },
+      { label: "LinkedIn", href: "https://linkedin.com/in/example", identifier: "linkedin" },
       { label: "Instagram", href: "#instagram" },
       { label: "GitHub", href: "#github" },
     ]);

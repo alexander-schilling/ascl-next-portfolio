@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { InstagramIcon } from "@/components/ui/social-icons";
 
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -19,6 +20,7 @@ export function PassionsSection({ content }: PassionsSectionProps) {
             rel="noreferrer"
             className="inline-flex items-center rounded-full bg-gradient-to-r from-pink-600 to-purple-600 px-6 py-2 text-sm font-bold text-white shadow-lg transition-transform hover:scale-105"
           >
+            <InstagramIcon className="mr-2 h-4 w-4" />
             {content.instagramHandle}
           </a>
         </div>

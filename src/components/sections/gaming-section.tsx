@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import { DiscordIcon, WebIcon, InstagramIcon } from "@/components/ui/social-icons";
 import { CtaLink } from "@/components/ui/cta-link";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -40,8 +40,11 @@ export function GamingSection({ content }: GamingSectionProps) {
                     key={link.label}
                     href={link.href}
                     variant={index === 0 ? "primary" : "secondary"}
-                    className="rounded-xl px-6 py-3"
+                    className="rounded-xl px-6 py-3 inline-flex items-center gap-2"
                   >
+                    {(link.identifier === "hispano_discord" || link.label === "Discord") && <DiscordIcon className="h-4 w-4" />}
+                    {(link.identifier === "hispano_web" || link.label === "Website") && <WebIcon className="h-4 w-4" />}
+                    {(link.identifier === "hispano_instagram" || link.label === "Instagram") && <InstagramIcon className="h-4 w-4" />}
                     {link.label}
                   </CtaLink>
                 ))}
