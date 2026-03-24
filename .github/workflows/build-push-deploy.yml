@@ -1,0 +1,167 @@
+name: Build, Push & Deploy
+
+on:
+  push:
+    branches: [develop, main]
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  REGISTRY: docker.io
+  PLATFORMS: linux/amd64
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve image name (namespace/repo)
+        id: resolve
+        run: |
+          repo="${{ github.event.repository.name }}"
+          owner="${{ github.repository_owner }}"
+          ns="${{ vars.IMAGE_NAMESPACE }}"
+          image="${{ vars.IMAGE_NAME }}"
+          if [ -z "$image" ]; then
+            [ -z "$ns" ] && ns="$owner"
+            image="$ns/$repo"
+          fi
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+          echo "Resolved IMAGE_NAME=$image"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Backport guard (skip on backport → develop)
+        id: backport_guard
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.after;
+            let skip = false;
+
+            try {
+              const prsResp = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                commit_sha: sha
+              });
+
+              const prs = prsResp.data || [];
+              for (const pr of prs) {
+                const fromBackportBranch = pr?.head?.ref?.startsWith('backport/develop-');
+                const title = (pr?.title || '').toLowerCase();
+                const backportTitle = title.startsWith('backport main → develop') || title.startsWith('backport main -> develop');
+                const hasBackportLabel = (pr?.labels || []).some(l => (l.name || '').toLowerCase() === 'backport');
+                if (fromBackportBranch || backportTitle || hasBackportLabel) { skip = true; break; }
+              }
+            } catch (e) {
+              const msg = (context.payload.head_commit && context.payload.head_commit.message) || '';
+              if (/Merge pull request #\d+.*backport\/develop-/i.test(msg)) skip = true;
+            }
+
+            core.info(`Backport guard -> skip=${skip}`);
+            core.setOutput('skip', skip ? 'true' : 'false');
+
+      - name: Docker metadata (tags)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ steps.resolve.outputs.image }}
+          tags: |
+            type=ref,event=branch,branch=develop,prefix=dev-
+            type=raw,value=latest-dev,enable=${{ github.ref == 'refs/heads/develop' }}
+
+            type=ref,event=branch,branch=main,prefix=edge-
+
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-rc') && !contains(github.ref_name, '-beta') }}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-rc') && !contains(github.ref_name, '-beta') }}
+
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '-rc') }}
+
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '-beta') }}
+            type=raw,value=beta,enable=${{ startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '-beta') }}
+
+            type=raw,value=manual-${{ github.run_id }},enable=${{ github.event_name == 'workflow_dispatch' }}
+
+      - name: Build & Push
+        if: steps.backport_guard.outputs.skip != 'true'
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: ${{ env.PLATFORMS }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Dokploy (DEV)
+        if: >
+          steps.backport_guard.outputs.skip != 'true' &&
+          (
+            (github.event_name == 'push' && github.ref == 'refs/heads/develop' && vars.AUTO_DEPLOY_DEV == 'true') ||
+            (startsWith(github.ref, 'refs/tags/v') && contains(github.ref_name, '-beta'))
+          )
+        env:
+          BASE_URL: ${{ secrets.DOKPLOY_URL }}
+          API_KEY:  ${{ secrets.DOKPLOY_API_KEY }}
+          APP_ID:   ${{ secrets.DOKPLOY_APP_ID_DEV }}
+        run: |
+          curl -fsS -X POST \
+            "$BASE_URL/api/trpc/application.deploy" \
+            -H 'accept: application/json' \
+            -H "x-api-key: $API_KEY" \
+            -H 'content-type: application/json' \
+            --data "{\"json\":{\"applicationId\":\"$APP_ID\"}}"
+
+      - name: Deploy to Dokploy (PROD - from main)
+        if: steps.backport_guard.outputs.skip != 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.AUTO_DEPLOY_MAIN == 'true'
+        env:
+          BASE_URL: ${{ secrets.DOKPLOY_URL }}
+          API_KEY:  ${{ secrets.DOKPLOY_API_KEY }}
+          APP_ID:   ${{ secrets.DOKPLOY_APP_ID_PROD }}
+        run: |
+          curl -fsS -X POST \
+            "$BASE_URL/api/trpc/application.deploy" \
+            -H 'accept: application/json' \
+            -H "x-api-key: $API_KEY" \
+            -H 'content-type: application/json' \
+            --data "{\"json\":{\"applicationId\":\"$APP_ID\"}}"
+
+      - name: Deploy to Dokploy (PROD - from release tag)
+        if: steps.backport_guard.outputs.skip != 'true' && startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-beta') && !contains(github.ref_name, '-rc')
+        env:
+          BASE_URL: ${{ secrets.DOKPLOY_URL }}
+          API_KEY:  ${{ secrets.DOKPLOY_API_KEY }}
+          APP_ID:   ${{ secrets.DOKPLOY_APP_ID_PROD }}
+        run: |
+          curl -fsS -X POST \
+            "$BASE_URL/api/trpc/application.deploy" \
+            -H 'accept: application/json' \
+            -H "x-api-key: $API_KEY" \
+            -H 'content-type: application/json' \
+            --data "{\"json\":{\"applicationId\":\"$APP_ID\"}}"
