@@ -1,7 +1,7 @@
 import type { SiteContent } from "@/types/portfolio";
 
 export const siteContent: SiteContent = {
-  brand: "TechLead.Data",
+  brand: "AS",
   navLinks: [
     { label: "Story", href: "#about" },
     { label: "Career", href: "#experience" },
@@ -9,6 +9,11 @@ export const siteContent: SiteContent = {
     { label: "Contact", href: "#contact" },
   ],
   resumeUrl: "#",
+  resumeLabel: "Resume",
+  languageSwitcher: {
+    enLabel: "EN",
+    esLabel: "ES",
+  },
   hero: {
     badge: "The Human Behind the Code",
     title: "Crafting Systems,",
@@ -43,6 +48,7 @@ export const siteContent: SiteContent = {
     description:
       "A decade of translating complex business requirements into high-performance technical systems. Engineering for scale, leading for impact.",
   },
+  experienceShowMoreLabel: "View Prior Milestones",
   experience: [
     {
       period: "2021 - PRESENT",
@@ -142,6 +148,19 @@ export const siteContent: SiteContent = {
       { label: "Currently Reading", value: "System Design Interview Vol. 2" },
     ],
   },
+  seo: {
+    title: "Alexander | Data Engineering Portfolio",
+    description: "Alexander's portfolio: Data Engineering Tech Lead, distributed systems architecture, and personal projects.",
+    openGraphDescription: "Systems at scale, technical leadership, and creativity beyond the terminal.",
+    siteName: "Alexander Portfolio",
+  },
+  manifest: {
+    name: "Alexander | Data Engineering Portfolio",
+    shortName: "Alexander",
+    description: "Personal portfolio for a Data Engineering Tech Lead focused on distributed systems, leadership, and creative work.",
+  },
+  footerBrand: "AS",
+  footerNote: "Alexander • Built with Passion and Precision.",
   footerLinks: [
     { label: "LinkedIn", href: "#" },
     { label: "Instagram", href: "#" },

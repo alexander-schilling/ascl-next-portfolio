@@ -3,15 +3,17 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { buildLocalizedHref } from "@/lib/i18n-routing";
+import type { LanguageSwitcherContent } from "@/types/portfolio";
 import type { PortfolioLanguage } from "@/types/portfolio-api";
 
 type LanguageSwitcherProps = {
   currentLang: PortfolioLanguage;
+  labels: LanguageSwitcherContent;
 };
 
 const SUPPORTED_LANGUAGES: PortfolioLanguage[] = ["en", "es"];
 
-export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLang, labels }: LanguageSwitcherProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -43,7 +45,7 @@ export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
             aria-current={lang === currentLang ? "page" : undefined}
             className={lang === currentLang ? "text-indigo-400" : "hover:text-slate-100"}
           >
-            {lang.toUpperCase()}
+            {lang === "en" ? labels.enLabel : labels.esLabel}
           </button>
           {index < SUPPORTED_LANGUAGES.length - 1 ? " / " : null}
         </span>

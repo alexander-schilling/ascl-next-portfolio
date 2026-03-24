@@ -13,7 +13,7 @@ export function AboutSection({ content }: AboutSectionProps) {
       <div className="grid grid-cols-1 items-center gap-20 lg:grid-cols-2">
         <div className="relative order-2 lg:order-1">
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-container-high shadow-2xl">
-            <Image src={content.portraitUrl} alt="Personal portrait" fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <Image src={content.portraitUrl} alt={content.heading} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
           <div className="glass-card absolute -left-6 -top-6 rounded-2xl border border-primary/20 p-6 shadow-xl">
             <p className="mb-1 text-sm font-bold uppercase tracking-widest text-primary">{content.statusTitle}</p>

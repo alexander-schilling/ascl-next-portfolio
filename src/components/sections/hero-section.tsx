@@ -13,7 +13,7 @@ export function HeroSection({ content }: HeroSectionProps) {
       <div className="absolute inset-0 z-0">
         <Image
           src={content.backgroundImageUrl}
-          alt="Atmospheric workspace"
+          alt=""
           fill
           className="scale-105 object-cover opacity-15"
           priority

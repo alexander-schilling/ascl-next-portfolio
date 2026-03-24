@@ -2,26 +2,11 @@ import type { Metadata } from "next";
 
 import { getSiteUrl } from "@/lib/site";
 import type { SupportedLanguage } from "@/lib/i18n";
+import type { SeoContent } from "@/types/portfolio";
 
-const LOCALIZED_SEO = {
-  en: {
-    title: "Alexander | Data Engineering Portfolio",
-    description: "Alexander's portfolio: Data Engineering Tech Lead, distributed systems architecture, and personal projects.",
-    openGraphDescription: "Systems at scale, technical leadership, and creativity beyond the terminal.",
-    locale: "en_US",
-  },
-  es: {
-    title: "Alexander | Portafolio de Data Engineering",
-    description: "Portafolio de Alexander: Data Engineering Tech Lead, arquitectura de sistemas distribuidos y proyectos personales.",
-    openGraphDescription: "Sistemas a escala, liderazgo técnico y creatividad fuera de la terminal.",
-    locale: "es_CL",
-  },
-} as const;
-
-export function getLocalizedMetadata(lang: SupportedLanguage): Metadata {
+export function getLocalizedMetadata(lang: SupportedLanguage, seo: SeoContent): Metadata {
   const siteUrl = getSiteUrl();
   const canonical = `${siteUrl}/${lang}`;
-  const seo = LOCALIZED_SEO[lang];
 
   return {
     title: seo.title,
@@ -38,9 +23,9 @@ export function getLocalizedMetadata(lang: SupportedLanguage): Metadata {
       title: seo.title,
       description: seo.openGraphDescription,
       url: canonical,
-      locale: seo.locale,
+      locale: lang === "es" ? "es_CL" : "en_US",
       type: "website",
-      siteName: "Alexander Portfolio",
+      siteName: seo.siteName,
     },
     twitter: {
       card: "summary_large_image",

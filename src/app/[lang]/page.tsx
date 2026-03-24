@@ -36,6 +36,8 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
         brand={siteContent.brand}
         links={siteContent.navLinks}
         resumeUrl={siteContent.resumeUrl}
+        resumeLabel={siteContent.resumeLabel}
+        languageSwitcher={siteContent.languageSwitcher}
         currentLang={lang}
       />
       <main className="flex-1">
@@ -47,12 +49,13 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           title={siteContent.experienceSection.title}
           highlightedTitle={siteContent.experienceSection.highlightedTitle}
           description={siteContent.experienceSection.description}
+          showMoreLabel={siteContent.experienceShowMoreLabel}
         />
         <PassionsSection content={siteContent.passions} />
         <GamingSection content={siteContent.gaming} />
         <ContactSection content={siteContent.contact} />
       </main>
-      <SiteFooter brand={siteContent.brand} links={siteContent.footerLinks} />
+      <SiteFooter brand={siteContent.footerBrand} note={siteContent.footerNote} links={siteContent.footerLinks} />
     </div>
   );
 }

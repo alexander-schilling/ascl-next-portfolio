@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { isSupportedLanguage } from "@/lib/i18n";
+import { getPortfolioData } from "@/lib/portfolio-api";
 import { getLocalizedMetadata } from "@/lib/seo";
 
 type LocalizedLayoutProps = {
@@ -15,7 +16,9 @@ export async function generateMetadata({ params }: LocalizedLayoutProps): Promis
     return {};
   }
 
-  return getLocalizedMetadata(lang);
+  const { siteContent } = await getPortfolioData(lang);
+
+  return getLocalizedMetadata(lang, siteContent.seo);
 }
 
 export default async function LocalizedLayout({ children }: LocalizedLayoutProps) {

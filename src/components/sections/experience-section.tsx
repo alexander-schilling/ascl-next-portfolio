@@ -13,9 +13,10 @@ type ExperienceSectionProps = {
   title: string;
   highlightedTitle: string;
   description: string;
+  showMoreLabel: string;
 };
 
-export function ExperienceSection({ items, eyebrow, title, highlightedTitle, description }: ExperienceSectionProps) {
+export function ExperienceSection({ items, eyebrow, title, highlightedTitle, description, showMoreLabel }: ExperienceSectionProps) {
   const [showAll, setShowAll] = useState(false);
 
   const visibleItems = useMemo(
@@ -80,7 +81,7 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
                       <div className="group relative aspect-video overflow-hidden rounded-xl bg-surface-container-highest shadow-2xl md:mx-10">
                         <Image
                           src={item.imageUrl}
-                          alt={`${item.role} visual`}
+                          alt={item.role}
                           fill
                           className="object-cover opacity-40 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
                           sizes="(min-width: 768px) 50vw, 100vw"
@@ -101,7 +102,7 @@ export function ExperienceSection({ items, eyebrow, title, highlightedTitle, des
               onClick={() => setShowAll(true)}
               className="group relative overflow-hidden rounded-lg bg-surface-container-highest px-10 py-4 text-sm font-bold uppercase tracking-widest text-primary transition-colors hover:bg-surface-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
             >
-              <span className="relative z-10">View Prior Milestones</span>
+              <span className="relative z-10">{showMoreLabel}</span>
             </button>
           </div>
         ) : null}

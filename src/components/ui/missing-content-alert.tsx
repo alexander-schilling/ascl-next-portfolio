@@ -21,7 +21,7 @@ export function MissingContentAlert({ diagnostics }: MissingContentAlertProps) {
   }
 
   return (
-    <section className="border-b border-amber-300/30 bg-amber-100/90 px-6 py-4 text-amber-950">
+    <section className="border-b border-amber-300/30 bg-amber-100/90 px-6 py-4 text-amber-950 mt-20">
       <div className="mx-auto w-full max-w-7xl space-y-3 text-sm">
         {diagnostics.missingContentTypes.length > 0 ? (
           <div>

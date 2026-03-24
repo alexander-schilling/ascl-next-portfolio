@@ -1,12 +1,16 @@
 import type { MetadataRoute } from "next";
 
-export default function manifest(): MetadataRoute.Manifest {
+import { DEFAULT_LANGUAGE } from "@/lib/i18n";
+import { getPortfolioData } from "@/lib/portfolio-api";
+
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { siteContent } = await getPortfolioData(DEFAULT_LANGUAGE);
+
   return {
-    name: "Alexander | Data Engineering Portfolio",
-    short_name: "Alexander",
-    description:
-      "Personal portfolio for a Data Engineering Tech Lead focused on distributed systems, leadership, and creative work.",
-    start_url: "/",
+    name: siteContent.manifest.name,
+    short_name: siteContent.manifest.shortName,
+    description: siteContent.manifest.description,
+    start_url: `/${DEFAULT_LANGUAGE}`,
     display: "standalone",
     background_color: "#0b1326",
     theme_color: "#0b1326",

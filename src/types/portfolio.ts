@@ -78,17 +78,42 @@ export type ContactContent = {
   details: Array<{ label: string; value: string }>;
 };
 
+export type LanguageSwitcherContent = {
+  enLabel: string;
+  esLabel: string;
+};
+
+export type SeoContent = {
+  title: string;
+  description: string;
+  openGraphDescription: string;
+  siteName: string;
+};
+
+export type ManifestContent = {
+  name: string;
+  shortName: string;
+  description: string;
+};
+
 export type SiteContent = {
   brand: string;
   navLinks: NavLink[];
   resumeUrl: string;
+  resumeLabel: string;
+  languageSwitcher: LanguageSwitcherContent;
   hero: HeroContent;
   about: AboutContent;
   experienceSection: ExperienceSectionContent;
+  experienceShowMoreLabel: string;
   experience: ExperienceEntry[];
   passions: PassionContent;
   gaming: GamingContent;
   contact: ContactContent;
+  seo: SeoContent;
+  manifest: ManifestContent;
+  footerBrand: string;
+  footerNote: string;
   footerLinks: Array<{ label: string; href: string }>;
 };
 
