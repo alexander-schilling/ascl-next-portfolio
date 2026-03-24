@@ -2,6 +2,7 @@ import type { SiteContent } from "@/types/portfolio";
 
 export const siteContent: SiteContent = {
   brand: "AS",
+  brandLogoUrl: "",
   navLinks: [
     { label: "Story", href: "#about" },
     { label: "Career", href: "#experience" },

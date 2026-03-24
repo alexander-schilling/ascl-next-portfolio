@@ -13,6 +13,7 @@ import type {
   PortfolioCareerItem,
   PortfolioContentItem,
   PortfolioDiagnostics,
+  PortfolioFileItem,
   PortfolioLanguage,
   PortfolioSocialItem,
 } from "@/types/portfolio-api";
@@ -40,13 +41,42 @@ function splitByBreaks(value: string) {
     .filter(Boolean);
 }
 
+function isPortfolioFileItem(value: unknown): value is PortfolioFileItem {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<PortfolioFileItem>;
+
+  return (
+    typeof candidate.identifier === "string"
+    && typeof candidate.title === "string"
+    && typeof candidate.description === "string"
+    && typeof candidate.file === "string"
+  );
+}
+
 function isPortfolioApiResponse(value: unknown): value is PortfolioApiResponse {
   if (!value || typeof value !== "object") {
     return false;
   }
 
   const candidate = value as Partial<PortfolioApiResponse>;
-  return Array.isArray(candidate.content) && Array.isArray(candidate.career) && Array.isArray(candidate.social);
+  const hasRequiredCollections = (
+    Array.isArray(candidate.content)
+    && Array.isArray(candidate.career)
+    && Array.isArray(candidate.social)
+  );
+
+  if (!hasRequiredCollections) {
+    return false;
+  }
+
+  if (candidate.files === undefined) {
+    return true;
+  }
+
+  return Array.isArray(candidate.files) && candidate.files.every((item) => isPortfolioFileItem(item));
 }
 
 function getContentMap(content: PortfolioContentItem[]) {
@@ -60,6 +90,14 @@ function getContentMap(content: PortfolioContentItem[]) {
 function getSocialMap(social: PortfolioSocialItem[]) {
   const map = new Map<string, PortfolioSocialItem>();
   for (const item of social) {
+    map.set(item.identifier, item);
+  }
+  return map;
+}
+
+function getFileMap(files: PortfolioFileItem[] = []) {
+  const map = new Map<string, PortfolioFileItem>();
+  for (const item of files) {
     map.set(item.identifier, item);
   }
   return map;
@@ -167,6 +205,7 @@ function reportDiagnostics(lang: PortfolioLanguage, diagnostics: PortfolioDiagno
 function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteContent; diagnostics: PortfolioDiagnostics } {
   const contentMap = getContentMap(payload.content);
   const socialMap = getSocialMap(payload.social);
+  const fileMap = getFileMap(payload.files);
   const contentTypeDiagnostics = analyzeContentTypes(payload.content);
   const warnings: string[] = [];
 
@@ -191,6 +230,10 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
   const instagram = socialMap.get("photo_instagram");
   const linkedin = socialMap.get("linkedin");
   const github = socialMap.get("github");
+  const resumeFile = payload.files?.find((item) => item.identifier === "resume");
+  const brandLogoFile = fileMap.get("brand_logo");
+  const profilePictureFile = fileMap.get("profile_picture");
+  const hispanoBannerFile = fileMap.get("hispano_banner");
   const gamingLinksResult = buildOrderedSocialLinks(
     payload.social,
     GAMING_SOCIAL_IDENTIFIERS,
@@ -208,6 +251,22 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
 
   if (!linkedin || !github) {
     warnings.push("Faltan social identifiers 'linkedin' y/o 'github' para CTAs de contacto.");
+  }
+
+  if (!resumeFile?.file) {
+    warnings.push("Falta files identifier 'resume' para el enlace de CV; se usa fallback local.");
+  }
+
+  if (!brandLogoFile?.file) {
+    warnings.push("Falta files identifier 'brand_logo' para header/footer; se usa fallback local.");
+  }
+
+  if (!profilePictureFile?.file) {
+    warnings.push("Falta files identifier 'profile_picture' para About; se usa fallback local.");
+  }
+
+  if (!hispanoBannerFile?.file) {
+    warnings.push("Falta files identifier 'hispano_banner' para Comunidad Hispano; se usa fallback local.");
   }
 
   if (gamingLinksResult.missingIdentifiers.length > 0) {
@@ -231,12 +290,14 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
   const siteContent: SiteContent = {
     ...fallbackSiteContent,
     brand: pickText("header_brand", fallbackSiteContent.brand),
+    brandLogoUrl: brandLogoFile?.file || fallbackSiteContent.brandLogoUrl,
     navLinks: [
       { label: pickText("story_button", fallbackSiteContent.navLinks[0].label), href: "#about" },
       { label: pickText("career_button", fallbackSiteContent.navLinks[1].label), href: "#experience" },
       { label: pickText("passions_button", fallbackSiteContent.navLinks[2].label), href: "#passions" },
       { label: pickText("contact_button", fallbackSiteContent.navLinks[3].label), href: "#contact" },
     ],
+    resumeUrl: resumeFile?.file || fallbackSiteContent.resumeUrl,
     resumeLabel: pickText("header_resume_button", fallbackSiteContent.resumeLabel),
     languageSwitcher: {
       enLabel: pickText("language_switcher_en_label", fallbackSiteContent.languageSwitcher.enLabel),
@@ -263,6 +324,7 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
       paragraphs: aboutParagraphs.length > 0 ? aboutParagraphs : fallbackSiteContent.about.paragraphs,
       statusTitle: aboutStatusLines[0] ?? fallbackSiteContent.about.statusTitle,
       statusLabel: aboutStatusLines[1] ?? fallbackSiteContent.about.statusLabel,
+      portraitUrl: profilePictureFile?.file || fallbackSiteContent.about.portraitUrl,
       features: [
         {
           title: aboutBadge1Title || fallbackSiteContent.about.features[0].title,
@@ -298,6 +360,7 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
       heading: pickText("hispano_title", fallbackSiteContent.gaming.heading),
       description: pickText("hispano_description", fallbackSiteContent.gaming.description),
       links: gamingLinksResult.links,
+      imageUrl: hispanoBannerFile?.file || fallbackSiteContent.gaming.imageUrl,
       stats: [
         {
           label: extractTagText(getValue("hispano_badge_1"), "h4") || fallbackSiteContent.gaming.stats[0].label,
@@ -415,7 +478,7 @@ export async function getPortfolioData(rawLang?: string) {
         missingContentTypes: [...EXPECTED_CONTENT_TYPES],
         duplicateContentTypes: [],
         unknownContentTypes: [],
-        warnings: ["Respuesta invalida del backend: se esperaba { content, career, social }."],
+        warnings: ["Respuesta invalida del backend: se esperaba { content, career, social } con files opcional."],
       } satisfies PortfolioDiagnostics;
 
       reportDiagnostics(lang, diagnostics);

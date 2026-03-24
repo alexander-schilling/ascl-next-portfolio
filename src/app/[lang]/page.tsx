@@ -34,6 +34,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
       <MissingContentAlert diagnostics={diagnostics} />
       <SiteHeader
         brand={siteContent.brand}
+        brandLogoUrl={siteContent.brandLogoUrl}
         links={siteContent.navLinks}
         resumeUrl={siteContent.resumeUrl}
         resumeLabel={siteContent.resumeLabel}
@@ -55,7 +56,12 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
         <GamingSection content={siteContent.gaming} />
         <ContactSection content={siteContent.contact} />
       </main>
-      <SiteFooter brand={siteContent.footerBrand} note={siteContent.footerNote} links={siteContent.footerLinks} />
+      <SiteFooter
+        brand={siteContent.footerBrand}
+        brandLogoUrl={siteContent.brandLogoUrl}
+        note={siteContent.footerNote}
+        links={siteContent.footerLinks}
+      />
     </div>
   );
 }

@@ -98,6 +98,7 @@ export type ManifestContent = {
 
 export type SiteContent = {
   brand: string;
+  brandLogoUrl: string;
   navLinks: NavLink[];
   resumeUrl: string;
   resumeLabel: string;

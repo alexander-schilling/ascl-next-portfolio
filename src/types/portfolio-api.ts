@@ -75,10 +75,18 @@ export type PortfolioSocialItem = {
   url: string;
 };
 
+export type PortfolioFileItem = {
+  identifier: string;
+  title: string;
+  description: string;
+  file: string;
+};
+
 export type PortfolioApiResponse = {
   content: PortfolioContentItem[];
   career: PortfolioCareerItem[];
   social: PortfolioSocialItem[];
+  files?: PortfolioFileItem[];
 };
 
 export type PortfolioDiagnostics = {
