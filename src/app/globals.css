@@ -1,10 +1,64 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --background: #0b1326;
   --on-background: #dae2fd;
+  --font-inter: Inter, Arial, Helvetica, sans-serif;
+  --font-space-grotesk: "Space Grotesk", Inter, Arial, Helvetica, sans-serif;
+}
+
+@theme inline {
+  --color-on-tertiary-fixed-variant: #703700;
+  --color-on-secondary-container: #00302b;
+  --color-primary-container: #8083ff;
+  --color-primary-fixed-dim: #c0c1ff;
+  --color-on-tertiary: #4f2500;
+  --color-inverse-surface: #dae2fd;
+  --color-outline-variant: #464554;
+  --color-secondary: #6bd8cb;
+  --color-on-error: #690005;
+  --color-surface-container-low: #131b2e;
+  --color-surface-dim: #0b1326;
+  --color-tertiary-container: #d97721;
+  --color-on-surface-variant: #c7c4d7;
+  --color-on-primary-container: #0d0096;
+  --color-on-tertiary-fixed: #301400;
+  --color-surface-tint: #c0c1ff;
+  --color-secondary-fixed: #89f5e7;
+  --color-error: #ffb4ab;
+  --color-on-secondary: #003732;
+  --color-on-secondary-fixed-variant: #005049;
+  --color-tertiary: #ffb783;
+  --color-surface-bright: #31394d;
+  --color-on-background: var(--on-background);
+  --color-on-primary: #1000a9;
+  --color-primary-fixed: #e1e0ff;
+  --color-on-secondary-fixed: #00201d;
+  --color-inverse-on-surface: #283044;
+  --color-secondary-container: #29a195;
+  --color-secondary-fixed-dim: #6bd8cb;
+  --color-outline: #908fa0;
+  --color-on-error-container: #ffdad6;
+  --color-surface-container-high: #222a3d;
+  --color-surface-container-lowest: #060e20;
+  --color-background: var(--background);
+  --color-on-primary-fixed-variant: #2f2ebe;
+  --color-error-container: #93000a;
+  --color-tertiary-fixed-dim: #ffb783;
+  --color-surface: #0b1326;
+  --color-on-primary-fixed: #07006c;
+  --color-surface-container-highest: #2d3449;
+  --color-on-tertiary-container: #452000;
+  --color-on-surface: #dae2fd;
+  --color-surface-variant: #2d3449;
+  --color-tertiary-fixed: #ffdcc5;
+  --color-primary: #c0c1ff;
+  --color-inverse-primary: #494bd6;
+  --color-surface-container: #171f33;
+
+  --font-body: var(--font-inter);
+  --font-headline: var(--font-space-grotesk);
+  --font-label: var(--font-inter);
 }
 
 html {

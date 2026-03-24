@@ -6,13 +6,13 @@ import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
-  variable: "--font-body",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-headline",
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
 });
