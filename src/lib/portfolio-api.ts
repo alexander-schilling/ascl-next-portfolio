@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { siteContent as fallbackSiteContent } from "@/data/portfolio";
 import { decodeHtmlEntities, stripHtml } from "@/lib/html-content";
 import { EXPECTED_CONTENT_TYPES } from "@/types/portfolio-api";
@@ -19,6 +20,53 @@ import type {
 } from "@/types/portfolio-api";
 
 const HTML_BREAK_REGEX = /<br\s*\/?\s*>/gi;
+const PORTFOLIO_CACHE_TAG = "portfolio-data";
+const DEFAULT_PORTFOLIO_CACHE_REVALIDATE_SECONDS = 300;
+
+type PortfolioDataResult = {
+  lang: PortfolioLanguage;
+  siteContent: SiteContent;
+  diagnostics: PortfolioDiagnostics;
+};
+
+class PortfolioLoadError extends Error {
+  constructor(public readonly warnings: string[]) {
+    super(warnings[0] ?? "Portfolio load error");
+    this.name = "PortfolioLoadError";
+  }
+}
+
+function getPortfolioCacheTag(lang: PortfolioLanguage) {
+  return `${PORTFOLIO_CACHE_TAG}:${lang}`;
+}
+
+function getPortfolioCacheRevalidateSeconds() {
+  const rawValue = process.env.PORTFOLIO_CACHE_REVALIDATE_SECONDS;
+  const parsedValue = Number.parseInt(rawValue ?? "", 10);
+
+  if (Number.isFinite(parsedValue) && parsedValue > 0) {
+    return parsedValue;
+  }
+
+  return DEFAULT_PORTFOLIO_CACHE_REVALIDATE_SECONDS;
+}
+
+function createFallbackDiagnostics(warnings: string[]): PortfolioDiagnostics {
+  return {
+    missingContentTypes: [...EXPECTED_CONTENT_TYPES],
+    duplicateContentTypes: [],
+    unknownContentTypes: [],
+    warnings,
+  };
+}
+
+function createFallbackResult(lang: PortfolioLanguage, warnings: string[]): PortfolioDataResult {
+  return {
+    lang,
+    siteContent: localizeSiteChrome(fallbackSiteContent, lang),
+    diagnostics: createFallbackDiagnostics(warnings),
+  };
+}
 
 function extractTagText(value: string, tagName: string) {
   const regex = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "i");
@@ -200,6 +248,58 @@ function reportDiagnostics(lang: PortfolioLanguage, diagnostics: PortfolioDiagno
     unknownContentTypes: diagnostics.unknownContentTypes,
     warnings: diagnostics.warnings,
   });
+}
+
+async function loadRemotePortfolioData(baseUrl: string, lang: PortfolioLanguage, revalidateSeconds: number): Promise<PortfolioDataResult> {
+  const url = new URL("/portfolio", baseUrl);
+  url.searchParams.set("lang", lang);
+
+  const response = await fetch(url, {
+    cache: "force-cache",
+    next: {
+      revalidate: revalidateSeconds,
+      tags: [PORTFOLIO_CACHE_TAG, getPortfolioCacheTag(lang)],
+    },
+  });
+
+  if (!response.ok) {
+    throw new PortfolioLoadError([
+      `El backend respondio ${response.status} al consultar ${url.pathname}.`,
+    ]);
+  }
+
+  const payload: unknown = await response.json();
+
+  if (!isPortfolioApiResponse(payload)) {
+    throw new PortfolioLoadError([
+      "Respuesta invalida del backend: se esperaba { content, career, social } con files opcional.",
+    ]);
+  }
+
+  const mapped = mapToSiteContent(payload);
+
+  return {
+    lang,
+    ...mapped,
+    siteContent: mapped.siteContent,
+  };
+}
+
+async function getCachedRemotePortfolioData(baseUrl: string, lang: PortfolioLanguage) {
+  const revalidateSeconds = getPortfolioCacheRevalidateSeconds();
+
+  if (process.env.NODE_ENV === "test") {
+    return loadRemotePortfolioData(baseUrl, lang, revalidateSeconds);
+  }
+
+  return unstable_cache(
+    async () => loadRemotePortfolioData(baseUrl, lang, revalidateSeconds),
+    [PORTFOLIO_CACHE_TAG, baseUrl, lang],
+    {
+      revalidate: revalidateSeconds,
+      tags: [PORTFOLIO_CACHE_TAG, getPortfolioCacheTag(lang)],
+    },
+  )();
 }
 
 function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteContent; diagnostics: PortfolioDiagnostics } {
@@ -438,87 +538,22 @@ export async function getPortfolioData(rawLang?: string) {
   const baseUrl = process.env.PORTFOLIO_API_BASE_URL;
 
   if (!baseUrl) {
-    const diagnostics = {
-      missingContentTypes: [...EXPECTED_CONTENT_TYPES],
-      duplicateContentTypes: [],
-      unknownContentTypes: [],
-      warnings: ["Define PORTFOLIO_API_BASE_URL para consumir el backend de portfolio."],
-    } satisfies PortfolioDiagnostics;
-
-    reportDiagnostics(lang, diagnostics);
-
-    return {
-      lang,
-      siteContent: localizeSiteChrome(fallbackSiteContent, lang),
-      diagnostics,
-    };
+    const fallbackResult = createFallbackResult(lang, ["Define PORTFOLIO_API_BASE_URL para consumir el backend de portfolio."]);
+    reportDiagnostics(lang, fallbackResult.diagnostics);
+    return fallbackResult;
   }
 
   try {
-    const url = new URL("/portfolio", baseUrl);
-    url.searchParams.set("lang", lang);
-
-    const response = await fetch(url, { next: { revalidate: 60 } });
-
-    if (!response.ok) {
-      const diagnostics = {
-        missingContentTypes: [...EXPECTED_CONTENT_TYPES],
-        duplicateContentTypes: [],
-        unknownContentTypes: [],
-        warnings: [`El backend respondio ${response.status} al consultar ${url.pathname}.`],
-      } satisfies PortfolioDiagnostics;
-
-      reportDiagnostics(lang, diagnostics);
-
-      return {
-        lang,
-        siteContent: localizeSiteChrome(fallbackSiteContent, lang),
-        diagnostics,
-      };
-    }
-
-    const payload: unknown = await response.json();
-
-    if (!isPortfolioApiResponse(payload)) {
-      const diagnostics = {
-        missingContentTypes: [...EXPECTED_CONTENT_TYPES],
-        duplicateContentTypes: [],
-        unknownContentTypes: [],
-        warnings: ["Respuesta invalida del backend: se esperaba { content, career, social } con files opcional."],
-      } satisfies PortfolioDiagnostics;
-
-      reportDiagnostics(lang, diagnostics);
-
-      return {
-        lang,
-        siteContent: localizeSiteChrome(fallbackSiteContent, lang),
-        diagnostics,
-      };
-    }
-
-    const mapped = mapToSiteContent(payload);
-    reportDiagnostics(lang, mapped.diagnostics);
-    return {
-      lang,
-      ...mapped,
-      siteContent: mapped.siteContent,
-    };
+    const result = await getCachedRemotePortfolioData(baseUrl, lang);
+    reportDiagnostics(lang, result.diagnostics);
+    return result;
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Error desconocido";
-    const diagnostics = {
-      missingContentTypes: [...EXPECTED_CONTENT_TYPES],
-      duplicateContentTypes: [],
-      unknownContentTypes: [],
-      warnings: [`No fue posible conectar al backend: ${message}`],
-    } satisfies PortfolioDiagnostics;
-
-    reportDiagnostics(lang, diagnostics);
-
-    return {
-      lang,
-      siteContent: localizeSiteChrome(fallbackSiteContent, lang),
-      diagnostics,
-    };
+    const fallbackWarnings = error instanceof PortfolioLoadError
+      ? error.warnings
+      : [`No fue posible conectar al backend: ${error instanceof Error ? error.message : "Error desconocido"}`];
+    const fallbackResult = createFallbackResult(lang, fallbackWarnings);
+    reportDiagnostics(lang, fallbackResult.diagnostics);
+    return fallbackResult;
   }
 }
 

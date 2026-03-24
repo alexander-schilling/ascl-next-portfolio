@@ -24,11 +24,13 @@ npm run build
 
 ```bash
 PORTFOLIO_API_BASE_URL=https://tu-backend.example.com
+PORTFOLIO_CACHE_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false
 ```
 
 - El frontend publica paginas por idioma en `/:lang` (ej: `/en`, `/es`).
 - El frontend consulta `GET /portfolio?lang=en|es` desde ese backend.
+- `getPortfolioData` cachea en servidor el resultado por idioma y revalida cada `PORTFOLIO_CACHE_REVALIDATE_SECONDS` segundos (por defecto: `300`).
 - El switch de idioma preserva la ruta actual, los query params y el `#hash` de seccion.
 - En `development` muestra un aviso con faltantes. En `production`, ese aviso solo aparece si `NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=true`.
 
