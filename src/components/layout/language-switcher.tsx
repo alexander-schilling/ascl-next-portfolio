@@ -9,11 +9,12 @@ import type { PortfolioLanguage } from "@/types/portfolio-api";
 type LanguageSwitcherProps = {
   currentLang: PortfolioLanguage;
   labels: LanguageSwitcherContent;
+  compact?: boolean;
 };
 
 const SUPPORTED_LANGUAGES: PortfolioLanguage[] = ["en", "es"];
 
-export function LanguageSwitcher({ currentLang, labels }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLang, labels, compact = false }: LanguageSwitcherProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ export function LanguageSwitcher({ currentLang, labels }: LanguageSwitcherProps)
 
   return (
     <div
-      className="inline-flex items-center rounded-full border border-slate-700/80 bg-slate-900/70 p-1 text-xs font-bold uppercase tracking-widest"
+      className={`inline-flex items-center rounded-full border border-slate-700/80 bg-slate-900/70 p-1 font-bold uppercase ${compact ? "text-[10px] tracking-normal" : "text-xs tracking-widest"}`}
       role="group"
       aria-label="Language selector"
     >
@@ -52,11 +53,11 @@ export function LanguageSwitcher({ currentLang, labels }: LanguageSwitcherProps)
             aria-current={isActive ? "page" : undefined}
             className={
               isActive
-                ? "cursor-pointer rounded-full bg-indigo-500 px-3 py-1 text-white"
-                : "cursor-pointer rounded-full px-3 py-1 text-slate-300 transition-colors hover:text-white"
+                ? `cursor-pointer rounded-full bg-indigo-500 text-white ${compact ? "px-2 py-1" : "px-3 py-1"}`
+                : `cursor-pointer rounded-full text-slate-300 transition-colors hover:text-white ${compact ? "px-2 py-1" : "px-3 py-1"}`
             }
           >
-            {lang === "en" ? labels.enLabel : labels.esLabel}
+            {compact ? lang.toUpperCase() : (lang === "en" ? labels.enLabel : labels.esLabel)}
           </button>
         );
       })}

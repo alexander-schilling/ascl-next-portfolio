@@ -53,9 +53,16 @@ export function SiteHeader({
             <LanguageSwitcher currentLang={currentLang} labels={languageSwitcher} />
           </Suspense>
         </div>
-        <CtaLink href={resumeUrl} className="px-6 py-2 text-xs uppercase tracking-widest active:scale-95" target="_blank" rel="noopener noreferrer">
-          {resumeLabel}
-        </CtaLink>
+        <div className="flex items-center gap-2 md:gap-4">
+          <div className="md:hidden">
+            <Suspense fallback={<span className="text-[10px] text-slate-400">EN / ES</span>}>
+              <LanguageSwitcher currentLang={currentLang} labels={languageSwitcher} compact />
+            </Suspense>
+          </div>
+          <CtaLink href={resumeUrl} className="px-6 py-2 text-xs uppercase tracking-widest active:scale-95" target="_blank" rel="noopener noreferrer">
+            {resumeLabel}
+          </CtaLink>
+        </div>
       </div>
     </nav>
   );
