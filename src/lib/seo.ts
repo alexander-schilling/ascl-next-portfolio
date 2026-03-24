@@ -16,7 +16,7 @@ export function getLocalizedMetadata(lang: SupportedLanguage, seo: SeoContent): 
       languages: {
         en: `${siteUrl}/en`,
         es: `${siteUrl}/es`,
-        "x-default": `${siteUrl}/en`,
+        "x-default": siteUrl,
       },
     },
     openGraph: {

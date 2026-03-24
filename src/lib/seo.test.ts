@@ -16,6 +16,7 @@ describe("getLocalizedMetadata", () => {
     expect(metadata.openGraph?.description).toBe("CMS OG EN");
     expect(metadata.openGraph?.siteName).toBe("CMS Site EN");
     expect(metadata.alternates?.canonical).toBe("http://localhost:3000/en");
+    expect(metadata.alternates?.languages?.["x-default"]).toBe("http://localhost:3000");
   });
 
   it("preserves locale mapping while using CMS SEO copy for Spanish", () => {
