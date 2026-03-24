@@ -51,6 +51,7 @@ Usa el ejemplo versionado y copialo a un archivo local antes de levantar los con
 cp .env.docker.example .env.docker
 ```
 
+`NODE_ENV`, `PORT` y `PORTFOLIO_*` se pasan al contenedor como variables de runtime.
 Las variables `NEXT_PUBLIC_*` se evalúan durante `next build`, por lo que `docker-compose.yml` las pasa tanto al build como al runtime.
 
 ### Build manual
@@ -61,6 +62,8 @@ docker build \
   --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
   -t ascl-next-portfolio .
 docker run --rm -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e PORT=3000 \
   -e PORTFOLIO_API_BASE_URL=https://tu-backend.example.com \
   -e PORTFOLIO_CACHE_REVALIDATE_SECONDS=300 \
   -e NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false \
@@ -73,6 +76,8 @@ docker run --rm -p 3000:3000 \
 ```bash
 docker compose --env-file .env.docker up --build
 ```
+
+`PORT` controla tanto el puerto interno del contenedor como el publicado por Compose (`PORT:PORT`).
 
 Si no defines `PORTFOLIO_API_BASE_URL`, la app sigue funcionando con el fallback local ya implementado en `src/lib/portfolio-api.ts`.
 
