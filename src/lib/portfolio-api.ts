@@ -1,4 +1,5 @@
 import { siteContent as fallbackSiteContent } from "@/data/portfolio";
+import { decodeHtmlEntities, stripHtml } from "@/lib/html-content";
 import { EXPECTED_CONTENT_TYPES } from "@/types/portfolio-api";
 import { analyzeContentTypes } from "@/lib/portfolio-content-types";
 import type { SiteContent } from "@/types/portfolio";
@@ -13,22 +14,6 @@ import type {
 } from "@/types/portfolio-api";
 
 const HTML_BREAK_REGEX = /<br\s*\/?\s*>/gi;
-const HTML_TAG_REGEX = /<[^>]*>/g;
-const WHITESPACE_REGEX = /\s+/g;
-
-function decodeHtmlEntities(value: string) {
-  return value
-    .replaceAll("&nbsp;", " ")
-    .replaceAll("&amp;", "&")
-    .replaceAll("&quot;", '"')
-    .replaceAll("&#39;", "'")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">");
-}
-
-function stripHtml(value: string) {
-  return decodeHtmlEntities(value.replace(HTML_TAG_REGEX, " ").replace(WHITESPACE_REGEX, " ")).trim();
-}
 
 function extractTagText(value: string, tagName: string) {
   const regex = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)<\\/${tagName}>`, "i");
