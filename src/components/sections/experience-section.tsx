@@ -9,9 +9,13 @@ import type { ExperienceEntry } from "@/types/portfolio";
 
 type ExperienceSectionProps = {
   items: ExperienceEntry[];
+  eyebrow: string;
+  title: string;
+  highlightedTitle: string;
+  description: string;
 };
 
-export function ExperienceSection({ items }: ExperienceSectionProps) {
+export function ExperienceSection({ items, eyebrow, title, highlightedTitle, description }: ExperienceSectionProps) {
   const [showAll, setShowAll] = useState(false);
 
   const visibleItems = useMemo(
@@ -26,19 +30,19 @@ export function ExperienceSection({ items }: ExperienceSectionProps) {
         <div className="mb-24 flex flex-col items-end gap-12 text-center md:flex-row md:text-left">
           <div className="flex-1">
             <SectionIntro
-              eyebrow="The Professional Journey"
+              eyebrow={eyebrow}
               title={
                 <>
-                  <span className="text-primary">Career</span>
+                  <span className="text-primary">{title}</span>
                   <br />
-                  <span className="text-on-surface">Architecture</span>
+                  <span className="text-on-surface">{highlightedTitle}</span>
                 </>
               }
             />
           </div>
           <div className="flex-1 pb-2">
             <p className="max-w-md text-lg leading-relaxed text-on-surface-variant">
-              A decade of translating complex business requirements into high-performance technical systems. Engineering for scale, leading for impact.
+              {description}
             </p>
           </div>
         </div>

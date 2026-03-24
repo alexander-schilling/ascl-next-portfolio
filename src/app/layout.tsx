@@ -19,25 +19,6 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: {
-    default: "Alexander | Data Engineering Portfolio",
-    template: "%s | Alexander",
-  },
-  description:
-    "Portfolio de Alexander: Data Engineering Tech Lead, arquitectura de sistemas distribuidos y proyectos personales.",
-  openGraph: {
-    title: "Alexander | Data Engineering Portfolio",
-    description:
-      "Sistemas a escala, liderazgo técnico y creatividad fuera de la terminal.",
-    type: "website",
-    url: getSiteUrl(),
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Alexander | Data Engineering Portfolio",
-    description:
-      "Sistemas a escala, liderazgo técnico y creatividad fuera de la terminal.",
-  },
 };
 
 export default function RootLayout({

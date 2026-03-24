@@ -36,6 +36,13 @@ export type ExperienceEntry = {
   hidden?: boolean;
 };
 
+export type ExperienceSectionContent = {
+  eyebrow: string;
+  title: string;
+  highlightedTitle: string;
+  description: string;
+};
+
 export type PhotoCard = {
   title: string;
   imageUrl: string;
@@ -77,6 +84,7 @@ export type SiteContent = {
   resumeUrl: string;
   hero: HeroContent;
   about: AboutContent;
+  experienceSection: ExperienceSectionContent;
   experience: ExperienceEntry[];
   passions: PassionContent;
   gaming: GamingContent;

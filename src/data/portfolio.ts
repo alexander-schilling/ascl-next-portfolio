@@ -36,6 +36,13 @@ export const siteContent: SiteContent = {
       { title: "Leadership", description: "Guiding teams, growing talent." },
     ],
   },
+  experienceSection: {
+    eyebrow: "The Professional Journey",
+    title: "Career",
+    highlightedTitle: "Architecture",
+    description:
+      "A decade of translating complex business requirements into high-performance technical systems. Engineering for scale, leading for impact.",
+  },
   experience: [
     {
       period: "2021 - PRESENT",

@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "cms.alexanderschilling.cl",
+      },
     ],
     maximumRedirects: 2,
     // Bound disk cache growth for self-hosted deployments.
