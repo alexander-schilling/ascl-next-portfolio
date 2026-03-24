@@ -3,20 +3,69 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1326;
+  --on-background: #dae2fd;
 }
 
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--on-background);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
 }
+
+::selection {
+  background: rgb(192 193 255 / 30%);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #6bd8cb;
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline), var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+section[id] {
+  scroll-margin-top: 7rem;
+}
+
+.glass-card {
+  background: rgb(23 31 51 / 70%);
+  backdrop-filter: blur(12px);
+}
+
+.timeline-gradient {
+  background: linear-gradient(180deg, #c0c1ff 0%, rgb(192 193 255 / 0%) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
