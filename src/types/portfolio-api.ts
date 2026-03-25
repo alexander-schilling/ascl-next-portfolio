@@ -23,6 +23,7 @@ export const EXPECTED_CONTENT_TYPES = [
   "photo_title",
   "photo_description",
   "photo_instagram",
+  "photo_view_post_label",
   "photo_gallery_1_title",
   "photo_gallery_2_title",
   "photo_gallery_3_title",

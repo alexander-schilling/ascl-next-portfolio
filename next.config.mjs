@@ -11,6 +11,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "cms.alexanderschilling.cl",
       },
+      {
+        protocol: "https",
+        hostname: "scontent.cdninstagram.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.fbcdn.net",
+      },
     ],
     maximumRedirects: 2,
     // Bound disk cache growth for self-hosted deployments.
