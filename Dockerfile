@@ -24,6 +24,9 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Ensure the directory exists even when the project has no tracked public assets.
+RUN mkdir -p public
+
 RUN npm run build
 
 FROM base AS runner
