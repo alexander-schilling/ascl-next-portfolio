@@ -1,3 +1,5 @@
+import type { ContentIconKey } from "@/lib/content-icons";
+
 export type NavLink = {
   label: string;
   href: string;
@@ -16,6 +18,7 @@ export type HeroContent = {
 export type AboutFeature = {
   title: string;
   description: string;
+  iconKey?: ContentIconKey;
 };
 
 export type AboutContent = {
@@ -27,11 +30,19 @@ export type AboutContent = {
   features: AboutFeature[];
 };
 
+export type ExperienceHighlight = {
+  text: string;
+  iconKey?: ContentIconKey;
+};
+
 export type ExperienceEntry = {
   period: string;
   role: string;
   company: string;
-  highlights: string[];
+  companyUrl?: string;
+  companyLinkedin?: string;
+  modality?: string;
+  highlights: ExperienceHighlight[];
   imageUrl?: string;
   hidden?: boolean;
 };
@@ -52,6 +63,7 @@ export type PhotoCard = {
 export type PassionContent = {
   heading: string;
   description: string;
+  iconKey?: ContentIconKey;
   instagramUrl: string;
   instagramHandle: string;
   gallery: PhotoCard[];
@@ -66,6 +78,7 @@ export type GamingLink = {
 export type GamingContent = {
   heading: string;
   description: string;
+  iconKey?: ContentIconKey;
   stats: Array<{ label: string; value: string }>;
   links: GamingLink[];
   imageUrl: string;

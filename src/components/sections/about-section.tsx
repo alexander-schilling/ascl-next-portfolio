@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { SectionShell } from "@/components/ui/section-shell";
+import { ContentIcon, getAboutFeatureIconTone } from "@/lib/content-icons";
 import type { AboutContent } from "@/types/portfolio";
 
 type AboutSectionProps = {
@@ -30,9 +31,19 @@ export function AboutSection({ content }: AboutSectionProps) {
           </div>
           <div className="grid grid-cols-1 gap-6 pt-8 sm:grid-cols-2">
             {content.features.map((feature) => (
-              <div key={feature.title} className="rounded-lg bg-surface-container p-4">
-                <h4 className="font-bold text-on-surface">{feature.title}</h4>
-                <p className="text-sm text-on-surface-variant">{feature.description}</p>
+              <div key={`${feature.title}-${feature.description}`} className="rounded-lg bg-surface-container p-4">
+                <div className="flex items-start gap-3">
+                  <ContentIcon
+                    iconKey={feature.iconKey}
+                    fallbackIconKey="curiosity"
+                    className={["mt-0.5 h-5 w-5 shrink-0", getAboutFeatureIconTone(feature.iconKey)].join(" ")}
+                    aria-hidden={true}
+                  />
+                  <div>
+                    <h4 className="font-bold text-on-surface">{feature.title}</h4>
+                    <p className="text-sm text-on-surface-variant">{feature.description}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

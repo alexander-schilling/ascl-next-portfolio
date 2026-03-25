@@ -22,7 +22,7 @@ export function HeroSection({ content }: HeroSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
       </div>
       <div className="relative z-10 mx-auto w-full max-w-7xl px-8 text-center md:text-left">
-        <div className="mx-auto max-w-4xl md:mx-0">
+        <div className="mx-auto max-w-5xl md:mx-0">
           <span className="mb-6 inline-block rounded bg-primary/10 px-3 py-1 text-sm font-bold uppercase tracking-widest text-primary">
             {content.badge}
           </span>

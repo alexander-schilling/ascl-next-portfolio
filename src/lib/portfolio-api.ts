@@ -1,5 +1,10 @@
 import { unstable_cache } from "next/cache";
 import { siteContent as fallbackSiteContent } from "@/data/portfolio";
+import {
+  inferAboutFeatureIconKey,
+  inferCareerHighlightIconKey,
+  normalizeContentIconKey,
+} from "@/lib/content-icons";
 import { decodeHtmlEntities, stripHtml } from "@/lib/html-content";
 import { EXPECTED_CONTENT_TYPES } from "@/types/portfolio-api";
 import { analyzeContentTypes } from "@/lib/portfolio-content-types";
@@ -20,8 +25,21 @@ import type {
 } from "@/types/portfolio-api";
 
 const HTML_BREAK_REGEX = /<br\s*\/?\s*>/gi;
+const CONTENT_BLOCK_REGEX = /<(p|div)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
+const CONTENT_ICON_ATTRIBUTE_REGEX = /\b(?:data-icon|data-icon-key|icon|identifier)=["']([^"']+)["']/i;
+const CONTENT_ICON_TAG_REGEX = /<icon[^>]*>([\s\S]*?)<\/icon>/i;
+const CONTENT_ICON_TOKEN_REGEX = /^\s*\[{1,2}icon:([a-z0-9_\- ]+)\]{1,2}\s*/i;
 const PORTFOLIO_CACHE_TAG = "portfolio-data";
 const DEFAULT_PORTFOLIO_CACHE_REVALIDATE_SECONDS = 300;
+
+type ParsedContentBlock = {
+  text: string;
+  iconKey?: ReturnType<typeof normalizeContentIconKey>;
+};
+
+function isDefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
+}
 
 type PortfolioDataResult = {
   lang: PortfolioLanguage;
@@ -87,6 +105,67 @@ function splitByBreaks(value: string) {
     .split("\n")
     .map((line) => stripHtml(line))
     .filter(Boolean);
+}
+
+function stripLeadingIconToken(value: string) {
+  return value.replace(CONTENT_ICON_TOKEN_REGEX, "").trim();
+}
+
+function extractInlineIconIdentifier(value: string) {
+  const attributeMatch = value.match(CONTENT_ICON_ATTRIBUTE_REGEX);
+
+  if (attributeMatch?.[1]) {
+    return attributeMatch[1];
+  }
+
+  const iconTagMatch = value.match(CONTENT_ICON_TAG_REGEX);
+
+  if (iconTagMatch?.[1]) {
+    return stripHtml(iconTagMatch[1]);
+  }
+
+  const tokenMatch = stripHtml(value).match(CONTENT_ICON_TOKEN_REGEX);
+  return tokenMatch?.[1];
+}
+
+function parseContentBlock(rawHtml: string) {
+  const iconKey = normalizeContentIconKey(extractInlineIconIdentifier(rawHtml));
+  const text = stripLeadingIconToken(stripHtml(rawHtml.replace(CONTENT_ICON_TAG_REGEX, " ")));
+
+  if (!text) {
+    return undefined;
+  }
+
+  return {
+    text,
+    iconKey,
+  } satisfies ParsedContentBlock;
+}
+
+function parseRichTextBlocks(value: string) {
+  const matches = Array.from(value.matchAll(CONTENT_BLOCK_REGEX));
+
+  if (matches.length === 0) {
+    return splitByBreaks(value)
+      .map((line) => {
+        const normalizedLine = stripLeadingIconToken(line);
+
+        if (!normalizedLine) {
+          return undefined;
+        }
+
+        return {
+          text: normalizedLine,
+          iconKey: normalizeContentIconKey(line.match(CONTENT_ICON_TOKEN_REGEX)?.[1]),
+        } satisfies ParsedContentBlock;
+      })
+      .filter(isDefined);
+  }
+
+  return matches
+    .map((match) => parseContentBlock(match[0]))
+    .filter(isDefined)
+    .filter((block, index, all) => all.findIndex((candidate) => candidate.text === block.text) === index);
 }
 
 function isPortfolioFileItem(value: unknown): value is PortfolioFileItem {
@@ -216,19 +295,19 @@ function localizeSiteChrome(content: SiteContent, lang: PortfolioLanguage) {
 }
 
 function parseCareerHighlights(item: PortfolioCareerItem) {
-  const paragraphs = extractTagList(item.description, "p");
-  const divLines = extractTagList(item.description, "div");
-  const lines = [...paragraphs, ...divLines]
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .filter((line, index, all) => all.indexOf(line) === index);
+  const lines = parseRichTextBlocks(item.description).map((block) => ({
+    text: block.text,
+    iconKey: block.iconKey ?? inferCareerHighlightIconKey(block.text),
+  }));
 
   if (lines.length > 0) {
     return lines;
   }
 
   const plainDescription = stripHtml(item.description);
-  return plainDescription ? [plainDescription] : [];
+  return plainDescription
+    ? [{ text: plainDescription, iconKey: inferCareerHighlightIconKey(plainDescription) }]
+    : [];
 }
 
 function reportDiagnostics(lang: PortfolioLanguage, diagnostics: PortfolioDiagnostics) {
@@ -320,12 +399,16 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
   const aboutStatusLines = extractTagList(getValue("about_status"), "p");
   const aboutParagraphs = extractTagList(getValue("about_content"), "p");
   const aboutHeading = extractTagText(getValue("about_content"), "h1");
-  const aboutBadge1Title = extractTagText(getValue("about_badge_1"), "h4");
-  const aboutBadge1Description = extractTagText(getValue("about_badge_1"), "p");
-  const aboutBadge2Title = extractTagText(getValue("about_badge_2"), "h4");
-  const aboutBadge2Description = extractTagText(getValue("about_badge_2"), "p");
+  const aboutBadge1Title = stripLeadingIconToken(extractTagText(getValue("about_badge_1"), "h4"));
+  const aboutBadge1Description = stripLeadingIconToken(extractTagText(getValue("about_badge_1"), "p"));
+  const aboutBadge2Title = stripLeadingIconToken(extractTagText(getValue("about_badge_2"), "h4"));
+  const aboutBadge2Description = stripLeadingIconToken(extractTagText(getValue("about_badge_2"), "p"));
+  const aboutBadge1IconKey = normalizeContentIconKey(extractInlineIconIdentifier(getValue("about_badge_1")));
+  const aboutBadge2IconKey = normalizeContentIconKey(extractInlineIconIdentifier(getValue("about_badge_2")));
   const careerTitleLines = splitByBreaks(getValue("career_title"));
   const contactTitleLines = splitByBreaks(getValue("contact_title"));
+  const photoTitleIconKey = normalizeContentIconKey(extractInlineIconIdentifier(getValue("photo_title")));
+  const hispanoTitleIconKey = normalizeContentIconKey(extractInlineIconIdentifier(getValue("hispano_title")));
 
   const instagram = socialMap.get("photo_instagram");
   const linkedin = socialMap.get("linkedin");
@@ -388,6 +471,9 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
     period: item.from_until,
     role: item.position,
     company: item.company,
+    companyUrl: item.company_url,
+    companyLinkedin: item.company_linkedin,
+    modality: item.modality,
     highlights: parseCareerHighlights(item),
     imageUrl: item.company_image,
   }));
@@ -435,10 +521,22 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
         {
           title: aboutBadge1Title || fallbackSiteContent.about.features[0].title,
           description: aboutBadge1Description || fallbackSiteContent.about.features[0].description,
+          iconKey: aboutBadge1IconKey
+            ?? fallbackSiteContent.about.features[0].iconKey
+            ?? inferAboutFeatureIconKey(
+              aboutBadge1Title || fallbackSiteContent.about.features[0].title,
+              aboutBadge1Description || fallbackSiteContent.about.features[0].description,
+            ),
         },
         {
           title: aboutBadge2Title || fallbackSiteContent.about.features[1].title,
           description: aboutBadge2Description || fallbackSiteContent.about.features[1].description,
+          iconKey: aboutBadge2IconKey
+            ?? fallbackSiteContent.about.features[1].iconKey
+            ?? inferAboutFeatureIconKey(
+              aboutBadge2Title || fallbackSiteContent.about.features[1].title,
+              aboutBadge2Description || fallbackSiteContent.about.features[1].description,
+            ),
         },
       ],
     },
@@ -452,7 +550,8 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
     experience: mappedExperience.length > 0 ? mappedExperience : fallbackSiteContent.experience,
     passions: {
       ...fallbackSiteContent.passions,
-      heading: pickText("photo_title", fallbackSiteContent.passions.heading),
+      heading: stripLeadingIconToken(pickText("photo_title", fallbackSiteContent.passions.heading)),
+      iconKey: photoTitleIconKey ?? fallbackSiteContent.passions.iconKey,
       description: pickText("photo_description", fallbackSiteContent.passions.description),
       instagramHandle: pickText("photo_instagram", fallbackSiteContent.passions.instagramHandle),
       instagramUrl: instagram?.url ?? fallbackSiteContent.passions.instagramUrl,
@@ -463,7 +562,8 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
     },
     gaming: {
       ...fallbackSiteContent.gaming,
-      heading: pickText("hispano_title", fallbackSiteContent.gaming.heading),
+      heading: stripLeadingIconToken(pickText("hispano_title", fallbackSiteContent.gaming.heading)),
+      iconKey: hispanoTitleIconKey ?? fallbackSiteContent.gaming.iconKey,
       description: pickText("hispano_description", fallbackSiteContent.gaming.description),
       links: gamingLinksResult.links,
       imageUrl: hispanoBannerFile?.file || fallbackSiteContent.gaming.imageUrl,
