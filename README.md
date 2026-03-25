@@ -26,6 +26,7 @@ npm run build
 PORTFOLIO_API_BASE_URL=https://tu-backend.example.com
 PORTFOLIO_CACHE_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 - El frontend publica paginas por idioma en `/:lang` (ej: `/en`, `/es`).
@@ -35,6 +36,50 @@ NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false
 - `getPortfolioData` cachea en servidor el resultado por idioma y revalida cada `PORTFOLIO_CACHE_REVALIDATE_SECONDS` segundos (por defecto: `300`).
 - El switch de idioma preserva la ruta actual, los query params y el `#hash` de seccion.
 - En `development` muestra un aviso con faltantes. En `production`, ese aviso solo aparece si `NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=true`.
+- `NEXT_PUBLIC_SITE_URL` define la URL canonica usada por metadata, `robots.txt` y `sitemap.xml`.
+
+## Docker
+
+Se incluye un `Dockerfile` multi-stage para produccion y un `docker-compose.yml` para levantar el frontend con variables de entorno explicitas.
+La imagen final prioriza menor tamaño usando `node:20-alpine` + `output: "standalone"` de Next.js.
+
+### Archivo de entorno para Docker
+
+Usa el ejemplo versionado y copialo a un archivo local antes de levantar los contenedores:
+
+```bash
+cp .env.docker.example .env.docker
+```
+
+`NODE_ENV`, `PORT` y `PORTFOLIO_*` se pasan al contenedor como variables de runtime.
+Las variables `NEXT_PUBLIC_*` se evalúan durante `next build`, por lo que `docker-compose.yml` las pasa tanto al build como al runtime.
+
+### Build manual
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false \
+  --build-arg NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
+  -t ascl-next-portfolio .
+docker run --rm -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e PORT=3000 \
+  -e PORTFOLIO_API_BASE_URL=https://tu-backend.example.com \
+  -e PORTFOLIO_CACHE_REVALIDATE_SECONDS=300 \
+  -e NEXT_PUBLIC_SHOW_CONTENT_WARNINGS=false \
+  -e NEXT_PUBLIC_SITE_URL=http://localhost:3000 \
+  ascl-next-portfolio
+```
+
+### Docker Compose
+
+```bash
+docker compose --env-file .env.docker up --build
+```
+
+`PORT` controla tanto el puerto interno del contenedor como el publicado por Compose (`PORT:PORT`).
+
+Si no defines `PORTFOLIO_API_BASE_URL`, la app sigue funcionando con el fallback local ya implementado en `src/lib/portfolio-api.ts`.
 
 ## Identifiers esperados en `portfolio_files`
 
