@@ -12,6 +12,12 @@ import { MissingContentAlert } from "@/components/ui/missing-content-alert";
 import { SUPPORTED_LANGUAGES, isSupportedLanguage } from "@/lib/i18n";
 import { getPortfolioData } from "@/lib/portfolio-api";
 
+// Force dynamic rendering so that PORTFOLIO_API_BASE_URL and other server-side
+// env vars are read from the container's runtime environment on every request,
+// not baked in at build time. The unstable_cache in portfolio-api.ts still
+// caches the API response for PORTFOLIO_CACHE_REVALIDATE_SECONDS seconds.
+export const dynamic = "force-dynamic";
+
 type LocalizedHomeProps = {
   params: Promise<{ lang: string }>;
 };
