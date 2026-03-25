@@ -3,6 +3,7 @@ import { InstagramIcon } from "@/components/ui/social-icons";
 
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
+import { ContentIcon, getSectionIconTone } from "@/lib/content-icons";
 import type { PassionContent } from "@/types/portfolio";
 
 type PassionsSectionProps = {
@@ -13,7 +14,15 @@ export function PassionsSection({ content }: PassionsSectionProps) {
   return (
     <SectionShell id="passions" className="overflow-hidden bg-surface-container-low">
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <SectionIntro title={content.heading} description={content.description} />
+          <SectionIntro
+            title={
+              <span className="inline-flex items-center gap-4">
+                <ContentIcon iconKey={content.iconKey} fallbackIconKey="camera" className={["h-8 w-8", getSectionIconTone(content.iconKey)].join(" ")} aria-hidden={true} />
+                <span>{content.heading}</span>
+              </span>
+            }
+            description={content.description}
+          />
           <a
             href={content.instagramUrl}
             target="_blank"

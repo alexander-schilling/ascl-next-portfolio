@@ -38,8 +38,8 @@ export const siteContent: SiteContent = {
     portraitUrl:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuB2b25O9g8AkrqBdMdgP-nApyXkAKh7ydfj4NdHPa9PFeAVw7TFU0qT4JmMa-mJFcpICFP_hNNgA84oUReQ7WBVfhNFe9v4YF_x_2Ueza4cEh3fejC5z9t9j5KoZeGKNvXRpLCJ_GRGn85FBCGgC273FMEA9tP-TCcykBWZONL0pkQnqpTcfNX6CNUDd720NZsqIUq5feSq6f4kAQITy-8bBxl0F3jpj6LFd744c7ZwIyf9ZiztxUXeEtRgHNBeCRcyc-7LY3ETVA",
     features: [
-      { title: "Curiosity", description: "Lifelong learner since 1996." },
-      { title: "Leadership", description: "Guiding teams, growing talent." },
+      { title: "Curiosity", description: "Lifelong learner since 1996.", iconKey: "curiosity" },
+      { title: "Leadership", description: "Guiding teams, growing talent.", iconKey: "leadership" },
     ],
   },
   experienceSection: {
@@ -55,10 +55,20 @@ export const siteContent: SiteContent = {
       period: "2021 - PRESENT",
       role: "Principal Data Engineer & Tech Lead",
       company: "Visa/Mastercard Ecosystem",
+      modality: "Hybrid",
       highlights: [
-        "Spearheaded the migration of legacy pipelines to a distributed Spark ecosystem, reducing processing latency by 65%.",
-        "Mentored a cross-functional team of 12 engineers and implemented CI/CD practices that increased deployment frequency by 4x.",
-        "Architected a real-time fraud detection engine processing 1.2M events/sec with 99.99% uptime.",
+        {
+          text: "Spearheaded the migration of legacy pipelines to a distributed Spark ecosystem, reducing processing latency by 65%.",
+          iconKey: "insights",
+        },
+        {
+          text: "Mentored a cross-functional team of 12 engineers and implemented CI/CD practices that increased deployment frequency by 4x.",
+          iconKey: "groups",
+        },
+        {
+          text: "Architected a real-time fraud detection engine processing 1.2M events/sec with 99.99% uptime.",
+          iconKey: "architecture",
+        },
       ],
       imageUrl:
         "https://lh3.googleusercontent.com/aida-public/AB6AXuDFV90Dklr22YcFNsJ4xD5jWEDToeKXrr9NZK16OAmS_W15fkwtyAAy8vAvevEwOrAS04rgh1RRXHnbpwb90Gt52DPt-b68AyPHzgWjWmdDPLLLXePP7VNgEQut-U6rE3Fm3--otRZNcB9fE2XNL8aUkDEMF2o7ZCeGNyH3M5Qe8X-sLqe-a-NRqp1kmAax6pysRNdD2_BBCT5w1id9H7n2ZwggX3YMALRtbwRgyLd-AC0ayacjourht803_DtwZvwzt6wI89BTuw",
@@ -67,10 +77,20 @@ export const siteContent: SiteContent = {
       period: "2018 - 2021",
       role: "Senior Full-Stack Engineer",
       company: "FinTech Startup",
+      modality: "Remote",
       highlights: [
-        "Developed and launched 15+ high-traffic web applications using React, Node.js, and AWS for Fortune 500 clients.",
-        "Built a cross-platform mobile app that reached 500k+ downloads in its first quarter.",
-        "Optimized frontend performance and maintained 98+ Lighthouse scores.",
+        {
+          text: "Developed and launched 15+ high-traffic web applications using React, Node.js, and AWS for Fortune 500 clients.",
+          iconKey: "rocket_launch",
+        },
+        {
+          text: "Built a cross-platform mobile app that reached 500k+ downloads in its first quarter.",
+          iconKey: "smartphone",
+        },
+        {
+          text: "Optimized frontend performance and maintained 98+ Lighthouse scores.",
+          iconKey: "bolt",
+        },
       ],
       imageUrl:
         "https://lh3.googleusercontent.com/aida-public/AB6AXuC0UMPtm22PGoEQpuf31VpS0JXSO1mt7JW6AU6xC4rt8fCFQBEzC-DxlAu4szcMXJP4u3k78eQIAQt17_9Qpsr3L0gFQPvtMkGG9gkJyKHAoXzAKHDnKvpmpLmbHw5pzSCxvMxwbvkF_v8kTxlgXEA2bcJH7v54JIzJ1F8F8grKPTZE3T4gKDDh3yRTbzcR5dvq9SiDTf_wQjiUOwt5Nb3L79biEuK9iJ5Bng68QQJrQxlgFMJiePYekX3wLsNdpAjQhjHWgR1QhQ",
@@ -79,9 +99,10 @@ export const siteContent: SiteContent = {
       period: "2015 - 2018",
       role: "Data Engineer",
       company: "Global Banking Group",
+      modality: "On-site",
       highlights: [
-        "Managed ETL pipelines for global reporting systems.",
-        "Optimized SQL queries for complex regulatory audits, improving report generation time by 400%.",
+        { text: "Managed ETL pipelines for global reporting systems.", iconKey: "architecture" },
+        { text: "Optimized SQL queries for complex regulatory audits, improving report generation time by 400%.", iconKey: "bolt" },
       ],
     },
     {
@@ -89,13 +110,14 @@ export const siteContent: SiteContent = {
       role: "Junior Web Developer",
       company: "Creative Agency",
       highlights: [
-        "Crafted responsive interfaces and managed database migrations for e-commerce clients.",
+        { text: "Crafted responsive interfaces and managed database migrations for e-commerce clients.", iconKey: "rocket_launch" },
       ],
       hidden: true,
     },
   ],
   passions: {
     heading: "Photography",
+    iconKey: "camera",
     description:
       "My lens is how I process the world. I specialize in urban landscapes and street photography, finding geometry in the chaos of the city.",
     instagramUrl: "https://instagram.com",
@@ -121,6 +143,7 @@ export const siteContent: SiteContent = {
   },
   gaming: {
     heading: "GTA 5 Roleplay",
+    iconKey: "joystick",
     description:
       "For the past 7 years, I've been the lead architect behind a high-concurrency Roleplay environment. This project involves deep systems programming, community management, and economic infrastructure design for thousands of players.",
     stats: [

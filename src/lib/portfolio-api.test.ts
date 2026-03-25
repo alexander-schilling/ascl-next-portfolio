@@ -104,5 +104,87 @@ describe("getPortfolioData", () => {
     expect(result.siteContent.hero.backgroundImageUrl).toBe(fallbackSiteContent.hero.backgroundImageUrl);
     expect(result.siteContent.resumeUrl).toBe(fallbackSiteContent.resumeUrl);
   });
+
+  it("maps icon metadata from CMS content into about, career and section headings", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        content: [
+          {
+            type: "about_badge_1",
+            content: '<div data-icon="curiosity"><h4>Curiosity</h4><p>Lifelong learner since 1996.</p></div>',
+          },
+          {
+            type: "about_badge_2",
+            content: '<div data-icon="leadership"><h4>Leadership</h4><p>Guiding teams, growing talent.</p></div>',
+          },
+          {
+            type: "photo_title",
+            content: "[[icon:camera]] Photography",
+          },
+          {
+            type: "hispano_title",
+            content: '<span data-icon="joystick">Comunidad Hispano</span>',
+          },
+        ],
+        career: [
+          {
+            from_until: "2021 - PRESENT",
+            position: "Principal Data Engineer & Tech Lead",
+            company: "Visa/Mastercard Ecosystem",
+            description: [
+              '<p data-icon="insights">Reduced processing latency by 65%.</p>',
+              '<p>[icon:groups] Mentored a cross-functional team of 12 engineers.</p>',
+              '<div><icon>architecture</icon>Architected a real-time fraud detection engine.</div>',
+            ].join(""),
+            prio_order: 1,
+          },
+        ],
+        social: [],
+      }),
+    } as Response);
+
+    const result = await getPortfolioData("en");
+
+    expect(result.siteContent.about.features[0].iconKey).toBe("curiosity");
+    expect(result.siteContent.about.features[1].iconKey).toBe("leadership");
+    expect(result.siteContent.passions.heading).toBe("Photography");
+    expect(result.siteContent.passions.iconKey).toBe("camera");
+    expect(result.siteContent.gaming.heading).toBe("Comunidad Hispano");
+    expect(result.siteContent.gaming.iconKey).toBe("joystick");
+    expect(result.siteContent.experience[0].highlights).toEqual([
+      { text: "Reduced processing latency by 65%.", iconKey: "insights" },
+      { text: "Mentored a cross-functional team of 12 engineers.", iconKey: "groups" },
+      { text: "Architected a real-time fraud detection engine.", iconKey: "architecture" },
+    ]);
+  });
+
+  it("maps company website and linkedin URLs for experience entries", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        content: [],
+        career: [
+          {
+            from_until: "2021 - PRESENT",
+            position: "Principal Data Engineer & Tech Lead",
+            company: "Visa/Mastercard Ecosystem",
+            company_url: "https://example.com/company",
+            company_linkedin: "https://www.linkedin.com/company/example-company/",
+            modality: "Hybrid",
+            description: "<p>Led platform initiatives.</p>",
+            prio_order: 1,
+          },
+        ],
+        social: [],
+      }),
+    } as Response);
+
+    const result = await getPortfolioData("en");
+
+    expect(result.siteContent.experience[0].companyUrl).toBe("https://example.com/company");
+    expect(result.siteContent.experience[0].companyLinkedin).toBe("https://www.linkedin.com/company/example-company/");
+    expect(result.siteContent.experience[0].modality).toBe("Hybrid");
+  });
 });
 

@@ -146,6 +146,140 @@ Ademas, el frontend reporta:
 - `footer_brand`
 - `footer_note`
 
+## Iconos desde CMS
+
+El frontend permite definir iconos desde el CMS para varias zonas del sitio sin hardcodearlos en los componentes.
+La logica vive en `src/lib/portfolio-api.ts` y las claves soportadas se centralizan en `src/lib/content-icons.ts`.
+
+### Secciones que aceptan iconos
+
+- `about_badge_1`: badge 1 de About (`about.features[0]`)
+- `about_badge_2`: badge 2 de About (`about.features[1]`)
+- `portfolio_career.description`: cada `<p>` o `<div>` puede definir su propio icono en Experience
+- `photo_title`: icono del titulo de Photography
+- `hispano_title`: icono del titulo de Comunidad Hispano / Gaming
+
+### Formatos soportados
+
+Puedes usar cualquiera de estos formatos dentro del contenido HTML del CMS:
+
+#### 1. Atributo `data-icon`
+
+```html
+<div data-icon="leadership">
+  <h4>Leadership</h4>
+  <p>Guiding teams, growing talent.</p>
+</div>
+```
+
+Tambien se aceptan estos atributos equivalentes:
+
+- `data-icon`
+- `data-icon-key`
+- `icon`
+- `identifier`
+
+#### 2. Tag `<icon>`
+
+```html
+<div>
+  <icon>architecture</icon>
+  Architected a real-time fraud detection engine.
+</div>
+```
+
+#### 3. Token al inicio del texto
+
+```html
+<p>[icon:groups] Mentored a cross-functional team of 12 engineers.</p>
+```
+
+Tambien funciona la variante con doble corchete:
+
+```html
+<p>[[icon:camera]] Photography</p>
+```
+
+### Claves de icono disponibles
+
+Usa preferentemente estas claves canonicas:
+
+- `curiosity`
+- `leadership`
+- `insights`
+- `groups`
+- `architecture`
+- `rocket_launch`
+- `smartphone`
+- `bolt`
+- `camera`
+- `joystick`
+
+> Nota: internamente existen aliases para algunos nombres relacionados, pero para contenido CMS se recomienda usar siempre las claves canonicas de la lista anterior.
+
+### Ejemplos por seccion
+
+#### About badges (`about_badge_1`, `about_badge_2`)
+
+```html
+<div data-icon="curiosity">
+  <h4>Curiosity</h4>
+  <p>Lifelong learner since 1996.</p>
+</div>
+```
+
+```html
+<div data-icon="leadership">
+  <h4>Leadership</h4>
+  <p>Guiding teams, growing talent.</p>
+</div>
+```
+
+#### Career highlights (`portfolio_career.description`)
+
+Cada highlight debe venir dentro de un `<p>` o `<div>`.
+Cada bloque puede tener su propio icono.
+
+```html
+<p data-icon="insights">Reduced processing latency by 65%.</p>
+<p>[icon:groups] Mentored a cross-functional team of 12 engineers.</p>
+<div><icon>architecture</icon>Architected a real-time fraud detection engine.</div>
+```
+
+#### Photography (`photo_title`)
+
+```html
+<span data-icon="camera">Photography</span>
+```
+
+o bien:
+
+```html
+[[icon:camera]] Photography
+```
+
+#### Comunidad Hispano / Gaming (`hispano_title`)
+
+```html
+<span data-icon="joystick">Comunidad Hispano</span>
+```
+
+### Fallbacks y comportamiento
+
+- Si `about_badge_1` o `about_badge_2` no definen icono, el frontend intenta inferir uno segun el texto.
+- Si un highlight de `portfolio_career.description` no trae icono, el frontend intenta inferirlo a partir del contenido del texto.
+- Si `photo_title` o `hispano_title` no traen icono, se usa el fallback local definido en `src/data/portfolio.ts`.
+- Los tokens como `[icon:camera]` o `[[icon:camera]]` se eliminan del texto final renderizado; solo se usan como metadata.
+
+### Links de empresa en Career
+
+Ademas de los iconos de highlights, cada item de `portfolio_career` puede mostrar iconos junto al nombre de la empresa si el backend envia:
+
+- `company_url`: muestra icono de Website
+- `company_linkedin`: muestra icono de LinkedIn
+
+Ambos enlaces se renderizan con `target="_blank"` en la tarjeta de experiencia.
+
 ## Estructura
 
 - `src/app/layout.tsx`: metadata global, fuentes, estilos base.

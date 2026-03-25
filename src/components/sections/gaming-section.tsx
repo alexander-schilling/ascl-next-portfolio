@@ -3,6 +3,7 @@ import { DiscordIcon, WebIcon, InstagramIcon } from "@/components/ui/social-icon
 import { CtaLink } from "@/components/ui/cta-link";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
+import { ContentIcon, getSectionIconTone } from "@/lib/content-icons";
 import type { GamingContent } from "@/types/portfolio";
 
 type GamingSectionProps = {
@@ -23,7 +24,16 @@ export function GamingSection({ content }: GamingSectionProps) {
               </div>
 
               <div className="lg:order-1">
-              <SectionIntro title={content.heading} description={content.description} className="mb-8" />
+              <SectionIntro
+                title={
+                  <span className="inline-flex items-center gap-4">
+                    <ContentIcon iconKey={content.iconKey} fallbackIconKey="joystick" className={["h-8 w-8", getSectionIconTone(content.iconKey)].join(" ")} aria-hidden={true} />
+                    <span>{content.heading}</span>
+                  </span>
+                }
+                description={content.description}
+                className="mb-8"
+              />
 
               <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2">
                 {content.stats.map((stat) => (
