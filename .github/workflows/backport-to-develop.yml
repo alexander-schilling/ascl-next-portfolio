@@ -1,0 +1,157 @@
+name: Backport main -> develop
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+    branches: [develop]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-backport-to-develop
+  cancel-in-progress: false
+
+jobs:
+  backport:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Config Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: ¿Ya existe un PR abierto de backport a develop?
+        id: check_open_pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: 'develop'
+            });
+
+            const exists = data.some(pr =>
+              (pr.title || '').startsWith('Backport main → develop') ||
+              (pr.head && pr.head.ref && pr.head.ref.startsWith('backport/develop-'))
+            );
+
+            core.setOutput('exists', exists ? 'true' : 'false');
+
+      - name: Crear rama y mergear main -> develop
+        id: create_branch
+        if: steps.check_open_pr.outputs.exists == 'false'
+        run: |
+          set -e
+          DATE=$(date +'%Y%m%d-%H%M%S')
+          BR="backport/develop-$DATE"
+
+          git fetch --prune origin
+
+          # Verificar si hay commits nuevos para backportear
+          if git merge-base --is-ancestor origin/main origin/develop; then
+            echo "No hay commits nuevos para backportear desde main a develop."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+          git checkout -b "$BR" origin/develop
+
+          set +e
+          git merge --no-ff --no-edit origin/main
+          MERGE_RC=$?
+          set -e
+
+          if [ "$MERGE_RC" -ne 0 ]; then
+            echo "Merge conflict detected while backporting main -> develop. Aborting backport branch $BR."
+            git merge --abort || true
+            exit "$MERGE_RC"
+          fi
+
+          git push -u origin "$BR"
+
+          echo "BRANCH=$BR" >> "$GITHUB_ENV"
+          echo "MERGE_RC=$MERGE_RC" >> "$GITHUB_ENV"
+
+      - name: Abrir PR hacia develop
+        if: steps.check_open_pr.outputs.exists == 'false' && steps.create_branch.outputs.skip != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = process.env.BRANCH;
+            const title = `Backport main → develop (${new Date().toISOString()})`;
+            const body = [
+              'Este PR backportea lo reciente de **main** hacia **develop**.',
+              `- Rama: \`${branch}\``,
+              `- Conflictos: ${process.env.MERGE_RC === '0' ? 'No' : 'Posibles (revisar commits)'}`
+            ].join('\n');
+
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${branch}`,
+              base: 'develop',
+              title,
+              body
+            });
+
+      - name: Etiquetar PR (opcional)
+        if: steps.check_open_pr.outputs.exists == 'false' && steps.create_branch.outputs.skip != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: 'develop'
+            });
+
+            const pr = pulls.find(p => p.head && p.head.ref && p.head.ref.startsWith(process.env.BRANCH));
+
+            if (pr) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: ['backport']
+              });
+            }
+
+  cleanup_backport_branch:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'develop' &&
+      startsWith(github.event.pull_request.head.ref, 'backport/develop-')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Borrar rama backport/develop-*
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = `heads/${context.payload.pull_request.head.ref}`;
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref
+              });
+              core.info(`Deleted ${ref}`);
+            } catch (e) {
+              core.warning(`No se pudo borrar ${ref}: ${e.message}`);
+            }
