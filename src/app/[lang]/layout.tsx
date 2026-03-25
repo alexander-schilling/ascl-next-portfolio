@@ -4,6 +4,10 @@ import { isSupportedLanguage } from "@/lib/i18n";
 import { getPortfolioData } from "@/lib/portfolio-api";
 import { getLocalizedMetadata } from "@/lib/seo";
 
+// Matches the dynamic strategy of page.tsx so that generateMetadata also reads
+// PORTFOLIO_API_BASE_URL from the runtime environment.
+export const dynamic = "force-dynamic";
+
 type LocalizedLayoutProps = {
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
