@@ -122,6 +122,7 @@ export const siteContent: SiteContent = {
       "My lens is how I process the world. I specialize in urban landscapes and street photography, finding geometry in the chaos of the city.",
     instagramUrl: "https://instagram.com",
     instagramHandle: "@schilling_lens",
+    viewPostLabel: "View post",
     gallery: [
       {
         title: "Urban Geometry",

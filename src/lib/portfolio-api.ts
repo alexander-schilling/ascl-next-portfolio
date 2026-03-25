@@ -230,6 +230,38 @@ function getFileMap(files: PortfolioFileItem[] = []) {
   return map;
 }
 
+function mapPassionsGallery(
+  files: PortfolioFileItem[] = [],
+  fallbackGallery: SiteContent["passions"]["gallery"],
+): SiteContent["passions"]["gallery"] {
+  const backendGallery = files
+    .map((item) => {
+      const match = item.identifier.match(/^(?:photo|passions)_gallery_(\d+)$/i);
+
+      if (!match || !item.file) {
+        return undefined;
+      }
+
+      return {
+        order: Number.parseInt(match[1], 10),
+        title: stripHtml(item.title).trim(),
+        imageUrl: item.file,
+      };
+    })
+    .filter(isDefined)
+    .sort((a, b) => a.order - b.order);
+
+  if (backendGallery.length === 0) {
+    return fallbackGallery;
+  }
+
+  return backendGallery.map((item, index) => ({
+    title: item.title || fallbackGallery[index]?.title || `Photo ${index + 1}`,
+    imageUrl: item.imageUrl,
+    featured: index === 0,
+  }));
+}
+
 function parseLang(rawLang?: string): PortfolioLanguage {
   return rawLang === "es" ? "es" : "en";
 }
@@ -478,6 +510,11 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
     imageUrl: item.company_image,
   }));
 
+  const passionsGallery = mapPassionsGallery(payload.files, fallbackSiteContent.passions.gallery).map((photo, index) => ({
+    ...photo,
+    title: pickText(`photo_gallery_${index + 1}_title`, photo.title),
+  }));
+
   const siteContent: SiteContent = {
     ...fallbackSiteContent,
     brand: pickText("header_brand", fallbackSiteContent.brand),
@@ -555,10 +592,8 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
       description: pickText("photo_description", fallbackSiteContent.passions.description),
       instagramHandle: pickText("photo_instagram", fallbackSiteContent.passions.instagramHandle),
       instagramUrl: instagram?.url ?? fallbackSiteContent.passions.instagramUrl,
-      gallery: fallbackSiteContent.passions.gallery.map((photo, index) => ({
-        ...photo,
-        title: pickText(`photo_gallery_${index + 1}_title`, photo.title),
-      })),
+      viewPostLabel: pickText("photo_view_post_label", fallbackSiteContent.passions.viewPostLabel),
+      gallery: passionsGallery,
     },
     gaming: {
       ...fallbackSiteContent.gaming,

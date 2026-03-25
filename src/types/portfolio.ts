@@ -57,6 +57,7 @@ export type ExperienceSectionContent = {
 export type PhotoCard = {
   title: string;
   imageUrl: string;
+  href?: string;
   featured?: boolean;
 };
 
@@ -66,6 +67,7 @@ export type PassionContent = {
   iconKey?: ContentIconKey;
   instagramUrl: string;
   instagramHandle: string;
+  viewPostLabel: string;
   gallery: PhotoCard[];
 };
 
