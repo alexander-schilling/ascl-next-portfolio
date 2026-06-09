@@ -1,6 +1,7 @@
 import { LinkedinIcon, GithubIcon, MailIcon } from "@/components/ui/social-icons";
 
 import { CtaLink } from "@/components/ui/cta-link";
+import { RevealWrapper } from "@/components/ui/reveal-wrapper";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
 import type { ContactContent } from "@/types/portfolio";
@@ -12,6 +13,7 @@ type ContactSectionProps = {
 export function ContactSection({ content }: ContactSectionProps) {
   return (
     <SectionShell id="contact" className="bg-surface">
+      <RevealWrapper>
         <div className="relative overflow-hidden rounded-3xl bg-surface-container-high p-12 text-center md:p-20">
           <div className="pointer-events-none absolute inset-0 opacity-5">
             <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 100" aria-hidden>
@@ -62,6 +64,7 @@ export function ContactSection({ content }: ContactSectionProps) {
             </div>
           </div>
         </div>
+      </RevealWrapper>
     </SectionShell>
   );
 }

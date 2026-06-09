@@ -28,7 +28,7 @@ const HTML_BREAK_REGEX = /<br\s*\/?\s*>/gi;
 const CONTENT_BLOCK_REGEX = /<(p|div)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
 const CONTENT_ICON_ATTRIBUTE_REGEX = /\b(?:data-icon|data-icon-key|icon|identifier)=["']([^"']+)["']/i;
 const CONTENT_ICON_TAG_REGEX = /<icon[^>]*>([\s\S]*?)<\/icon>/i;
-const CONTENT_ICON_TOKEN_REGEX = /^\s*\[{1,2}icon:([a-z0-9_\- ]+)\]{1,2}\s*/i;
+const CONTENT_ICON_TOKEN_REGEX = /^\s*\[{1,2}icon:([a-z0-9_\- ]+)]{1,2}\s*/i;
 const PORTFOLIO_CACHE_TAG = "portfolio-data";
 const DEFAULT_PORTFOLIO_CACHE_REVALIDATE_SECONDS = 300;
 
@@ -81,7 +81,7 @@ function createFallbackDiagnostics(warnings: string[]): PortfolioDiagnostics {
 function createFallbackResult(lang: PortfolioLanguage, warnings: string[]): PortfolioDataResult {
   return {
     lang,
-    siteContent: localizeSiteChrome(fallbackSiteContent, lang),
+    siteContent: applyUILabels(localizeSiteChrome(fallbackSiteContent, lang), lang),
     diagnostics: createFallbackDiagnostics(warnings),
   };
 }
@@ -266,6 +266,26 @@ function parseLang(rawLang?: string): PortfolioLanguage {
   return rawLang === "es" ? "es" : "en";
 }
 
+/**
+ * Applies only the UI labels that are never provided by the remote API.
+ * Safe to call on API-derived content without overwriting backend translations.
+ */
+function applyUILabels(content: SiteContent, lang: PortfolioLanguage): SiteContent {
+  const isEs = lang === "es";
+  return {
+    ...content,
+    hero: {
+      ...content.hero,
+      scrollLabel: isEs ? "Desplazar" : "Scroll",
+    },
+    experienceSection: {
+      ...content.experienceSection,
+      nowLabel: isEs ? "Ahora" : "Now",
+      rolesLabel: "roles",
+    },
+  };
+}
+
 function localizeSiteChrome(content: SiteContent, lang: PortfolioLanguage) {
   if (lang === "es") {
     return {
@@ -392,7 +412,7 @@ async function loadRemotePortfolioData(baseUrl: string, lang: PortfolioLanguage,
   return {
     lang,
     ...mapped,
-    siteContent: mapped.siteContent,
+    siteContent: applyUILabels(mapped.siteContent, lang),
   };
 }
 
@@ -582,6 +602,8 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
       title: careerTitleLines[0] ?? fallbackSiteContent.experienceSection.title,
       highlightedTitle: careerTitleLines[1] ?? fallbackSiteContent.experienceSection.highlightedTitle,
       description: pickText("career_description", fallbackSiteContent.experienceSection.description),
+      nowLabel: fallbackSiteContent.experienceSection.nowLabel,
+      rolesLabel: fallbackSiteContent.experienceSection.rolesLabel,
     },
     experienceShowMoreLabel: pickText("experience_show_more_button", fallbackSiteContent.experienceShowMoreLabel),
     experience: mappedExperience.length > 0 ? mappedExperience : fallbackSiteContent.experience,

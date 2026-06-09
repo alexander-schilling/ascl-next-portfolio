@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { DiscordIcon, WebIcon, InstagramIcon } from "@/components/ui/social-icons";
 import { CtaLink } from "@/components/ui/cta-link";
+import { RevealWrapper } from "@/components/ui/reveal-wrapper";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
 import { ContentIcon, getSectionIconTone } from "@/lib/content-icons";
@@ -13,6 +14,7 @@ type GamingSectionProps = {
 export function GamingSection({ content }: GamingSectionProps) {
   return (
     <SectionShell id="gaming" className="bg-surface">
+      <RevealWrapper>
         <div className="relative overflow-hidden rounded-[2.5rem] bg-surface-container-low p-8 md:p-16">
           <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 opacity-10">
             <Image src={content.imageUrl} alt="" fill className="object-cover grayscale" sizes="33vw" />
@@ -66,6 +68,7 @@ export function GamingSection({ content }: GamingSectionProps) {
             </div>
           </div>
         </div>
+      </RevealWrapper>
     </SectionShell>
   );
 }

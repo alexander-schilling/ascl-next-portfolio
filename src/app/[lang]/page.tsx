@@ -57,6 +57,8 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           highlightedTitle={siteContent.experienceSection.highlightedTitle}
           description={siteContent.experienceSection.description}
           showMoreLabel={siteContent.experienceShowMoreLabel}
+          nowLabel={siteContent.experienceSection.nowLabel}
+          rolesLabel={siteContent.experienceSection.rolesLabel}
         />
         <PassionsSection content={siteContent.passions} />
         <GamingSection content={siteContent.gaming} />

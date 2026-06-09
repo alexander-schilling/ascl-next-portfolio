@@ -9,17 +9,17 @@ type HeroSectionProps = {
 
 export function HeroSection({ content }: HeroSectionProps) {
   return (
-    <section className="relative flex min-h-[90vh] items-center justify-center overflow-hidden pt-20">
+    <section className="hero-grain relative flex min-h-[90vh] items-center justify-center overflow-hidden pt-20">
       <div className="absolute inset-0 z-0">
         <Image
           src={content.backgroundImageUrl}
           alt=""
           fill
-          className="object-cover object-center opacity-15"
+          className="object-cover object-center opacity-20"
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
       </div>
       <div className="relative z-10 mx-auto w-full max-w-7xl px-8 text-center md:text-left">
         <div className="mx-auto max-w-5xl md:mx-0">
@@ -43,6 +43,22 @@ export function HeroSection({ content }: HeroSectionProps) {
             </CtaLink>
           </div>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2">
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/50">{content.scrollLabel}</span>
+        <svg
+          className="h-5 w-5 text-on-surface-variant/40"
+          style={{ animation: "bounce-y 1.8s ease-in-out infinite" }}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          aria-hidden
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </div>
     </section>
   );
