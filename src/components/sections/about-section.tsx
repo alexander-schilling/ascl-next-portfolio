@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { RevealWrapper } from "@/components/ui/reveal-wrapper";
 import { SectionShell } from "@/components/ui/section-shell";
 import { ContentIcon, getAboutFeatureIconTone } from "@/lib/content-icons";
 import type { AboutContent } from "@/types/portfolio";
@@ -11,9 +12,10 @@ type AboutSectionProps = {
 export function AboutSection({ content }: AboutSectionProps) {
   return (
     <SectionShell id="about" className="bg-surface-container-low">
+      <RevealWrapper>
       <div className="grid grid-cols-1 items-center gap-20 lg:grid-cols-2">
         <div className="relative order-1 lg:order-1">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-container-high shadow-2xl">
+          <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-surface-container-high shadow-2xl">
             <Image src={content.portraitUrl} alt={content.heading} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
           <div className="glass-card absolute -left-6 -top-6 rounded-2xl border border-primary/20 p-6 shadow-xl">
@@ -49,6 +51,7 @@ export function AboutSection({ content }: AboutSectionProps) {
           </div>
         </div>
       </div>
+      </RevealWrapper>
     </SectionShell>
   );
 }

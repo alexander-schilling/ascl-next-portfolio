@@ -1,6 +1,7 @@
-import { LinkedinIcon, GithubIcon } from "@/components/ui/social-icons";
+import { LinkedinIcon, GithubIcon, MailIcon } from "@/components/ui/social-icons";
 
 import { CtaLink } from "@/components/ui/cta-link";
+import { RevealWrapper } from "@/components/ui/reveal-wrapper";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
 import type { ContactContent } from "@/types/portfolio";
@@ -12,6 +13,7 @@ type ContactSectionProps = {
 export function ContactSection({ content }: ContactSectionProps) {
   return (
     <SectionShell id="contact" className="bg-surface">
+      <RevealWrapper>
         <div className="relative overflow-hidden rounded-3xl bg-surface-container-high p-12 text-center md:p-20">
           <div className="pointer-events-none absolute inset-0 opacity-5">
             <svg className="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 100" aria-hidden>
@@ -44,6 +46,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                   variant={index === 0 ? "primary" : "ghost"}
                   className="w-full rounded-2xl px-12 py-5 text-xl sm:w-auto inline-flex items-center justify-center gap-2"
                 >
+                  {cta.label === "Email" && <MailIcon className="h-5 w-5" />}
                   {cta.label === "LinkedIn" && <LinkedinIcon className="h-5 w-5" />}
                   {cta.label === "GitHub" && <GithubIcon className="h-5 w-5" />}
                   {cta.label}
@@ -61,6 +64,7 @@ export function ContactSection({ content }: ContactSectionProps) {
             </div>
           </div>
         </div>
+      </RevealWrapper>
     </SectionShell>
   );
 }
