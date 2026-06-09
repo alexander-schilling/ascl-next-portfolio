@@ -13,6 +13,7 @@ export type HeroContent = {
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
   backgroundImageUrl: string;
+  scrollLabel: string;
 };
 
 export type AboutFeature = {
@@ -52,6 +53,8 @@ export type ExperienceSectionContent = {
   title: string;
   highlightedTitle: string;
   description: string;
+  nowLabel: string;
+  rolesLabel: string;
 };
 
 export type PhotoCard = {

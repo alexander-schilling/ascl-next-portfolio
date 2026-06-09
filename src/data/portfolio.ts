@@ -23,6 +23,7 @@ export const siteContent: SiteContent = {
       "The journey of a Data Engineer obsessed with structural precision and the organic beauty of life beyond the screen.",
     primaryCta: { label: "Explore My Story", href: "#about" },
     secondaryCta: { label: "See My Work", href: "#experience" },
+    scrollLabel: "Scroll",
     backgroundImageUrl:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuC72iL6LCan6mduWJYoNSfnzYT2BEx5R4_bgZGgkKYFRN1fLFzNUbnnzPYH07AFiluh3JrdLi5kHqAKSWtgQxIkUjKU6_TcFJScObmi-NjlX8lf-smJeDcSF9di4RZpJCV7Dwyvr8NgzWtrGXSqEyLtDpW8Jv9D62bKu4uhW22oKyLOvuNx3okLv49mGOqi9PvpFAaqaJVhM5CuyYNTA84sx-MPc1XlYPXFiX8pRY18j3IybSIhOGLzJxSQ1CD1N-1WMkfAtOAzBQ",
   },
@@ -48,6 +49,8 @@ export const siteContent: SiteContent = {
     highlightedTitle: "Architecture",
     description:
       "A decade of translating complex business requirements into high-performance technical systems. Engineering for scale, leading for impact.",
+    nowLabel: "Now",
+    rolesLabel: "roles",
   },
   experienceShowMoreLabel: "View Prior Milestones",
   experience: [
@@ -165,6 +168,7 @@ export const siteContent: SiteContent = {
     description:
       "Whether it's discussing high-throughput pipelines, sharing photography tips, or just talking about the future of gaming, let's start a conversation.",
     ctas: [
+      { label: "Email", href: "mailto:contacto@alexanderschilling.cl" },
       { label: "LinkedIn", href: "#" },
       { label: "GitHub", href: "#" },
     ],

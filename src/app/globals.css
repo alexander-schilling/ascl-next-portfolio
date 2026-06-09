@@ -3,8 +3,8 @@
 :root {
   --background: #0b1326;
   --on-background: #dae2fd;
-  --font-inter: Inter, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, Helvetica, sans-serif;
-  --font-space-grotesk: "Space Grotesk", Inter, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, Helvetica, sans-serif;
+  --font-figtree: Figtree, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, Helvetica, sans-serif;
+  --font-raleway: Raleway, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, Helvetica, sans-serif;
 }
 
 @theme inline {
@@ -56,9 +56,9 @@
   --color-inverse-primary: #494bd6;
   --color-surface-container: #171f33;
 
-  --font-body: var(--font-inter);
-  --font-headline: var(--font-space-grotesk);
-  --font-label: var(--font-inter);
+  --font-body: var(--font-figtree);
+  --font-headline: var(--font-raleway);
+  --font-label: var(--font-figtree);
 }
 
 html {
@@ -70,6 +70,45 @@ body {
   color: var(--on-background);
   font-family: var(--font-body), "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+/* Grain overlay — applied as ::after pseudo on hero via .hero-grain */
+.hero-grain::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* Scroll-reveal animation */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: reveal-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scroll-down chevron */
+@keyframes bounce-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
 }
 
 ::selection {
@@ -93,6 +132,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headline), var(--font-body), Arial, Helvetica, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 section[id] {
