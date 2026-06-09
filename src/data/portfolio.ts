@@ -165,6 +165,7 @@ export const siteContent: SiteContent = {
     description:
       "Whether it's discussing high-throughput pipelines, sharing photography tips, or just talking about the future of gaming, let's start a conversation.",
     ctas: [
+      { label: "Email", href: "mailto:contacto@alexanderschilling.cl" },
       { label: "LinkedIn", href: "#" },
       { label: "GitHub", href: "#" },
     ],

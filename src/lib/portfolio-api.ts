@@ -619,13 +619,14 @@ function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteCon
       highlighted: contactTitleLines[1] ?? fallbackSiteContent.contact.highlighted,
       description: pickText("contact_description", fallbackSiteContent.contact.description),
       ctas: [
+        fallbackSiteContent.contact.ctas[0],
         {
-          label: linkedin?.label ?? fallbackSiteContent.contact.ctas[0].label,
-          href: linkedin?.url ?? fallbackSiteContent.contact.ctas[0].href,
+          label: linkedin?.label ?? fallbackSiteContent.contact.ctas[1].label,
+          href: linkedin?.url ?? fallbackSiteContent.contact.ctas[1].href,
         },
         {
-          label: github?.label ?? fallbackSiteContent.contact.ctas[1].label,
-          href: github?.url ?? fallbackSiteContent.contact.ctas[1].href,
+          label: github?.label ?? fallbackSiteContent.contact.ctas[2].label,
+          href: github?.url ?? fallbackSiteContent.contact.ctas[2].href,
         },
       ],
       details: [

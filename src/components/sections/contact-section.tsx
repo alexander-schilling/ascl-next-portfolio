@@ -1,4 +1,4 @@
-import { LinkedinIcon, GithubIcon } from "@/components/ui/social-icons";
+import { LinkedinIcon, GithubIcon, MailIcon } from "@/components/ui/social-icons";
 
 import { CtaLink } from "@/components/ui/cta-link";
 import { SectionIntro } from "@/components/ui/section-intro";
@@ -44,6 +44,7 @@ export function ContactSection({ content }: ContactSectionProps) {
                   variant={index === 0 ? "primary" : "ghost"}
                   className="w-full rounded-2xl px-12 py-5 text-xl sm:w-auto inline-flex items-center justify-center gap-2"
                 >
+                  {cta.label === "Email" && <MailIcon className="h-5 w-5" />}
                   {cta.label === "LinkedIn" && <LinkedinIcon className="h-5 w-5" />}
                   {cta.label === "GitHub" && <GithubIcon className="h-5 w-5" />}
                   {cta.label}

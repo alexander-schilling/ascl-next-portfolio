@@ -38,7 +38,7 @@ export function HeroSection({ content }: HeroSectionProps) {
             <CtaLink href={content.primaryCta.href} className="px-8 py-4 text-sm sm:text-base">
               {content.primaryCta.label}
             </CtaLink>
-            <CtaLink href={content.secondaryCta.href} variant="secondary" className="px-8 py-4 text-sm sm:text-base">
+            <CtaLink href={content.secondaryCta.href} variant="ghost" className="px-8 py-4 text-sm sm:text-base">
               {content.secondaryCta.label}
             </CtaLink>
           </div>
