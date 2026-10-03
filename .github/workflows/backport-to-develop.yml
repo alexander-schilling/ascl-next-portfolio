@@ -44,6 +44,7 @@ jobs:
             });
 
             const exists = data.some(pr =>
+              (pr.title || '').startsWith('[Backport]') ||
               (pr.title || '').startsWith('Backport main → develop') ||
               (pr.head && pr.head.ref && pr.head.ref.startsWith('backport/develop-'))
             );
@@ -93,7 +94,7 @@ jobs:
         with:
           script: |
             const branch = process.env.BRANCH;
-            const title = `Backport main → develop (${new Date().toISOString()})`;
+            const title = `[Backport] Sincronizar main con develop (${new Date().toISOString()})`;
             const body = [
               'Este PR backportea lo reciente de **main** hacia **develop**.',
               `- Rama: \`${branch}\``,
