@@ -4,8 +4,10 @@ import { RevealWrapper } from "@/components/ui/reveal-wrapper";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
 import type { ContactContent } from "@/types/portfolio";
+import { buildPublicEmailMarkup, getContactEmail } from "@/lib/public-email";
 
 export function ContactSection({ content }: { content: ContactContent }) {
+  const email = getContactEmail(content);
   return (
     <SectionShell id="contact" className="bg-surface">
       <RevealWrapper>
@@ -25,6 +27,13 @@ export function ContactSection({ content }: { content: ContactContent }) {
                 </CtaLink>
               ))}
             </div>
+            {email && (
+              <div
+                className="mt-5 text-sm"
+                dangerouslySetInnerHTML={{ __html: buildPublicEmailMarkup(email,
+                  "break-all text-primary underline underline-offset-4 hover:text-primary-fixed focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary") }}
+              />
+            )}
             <dl className="mt-12 flex flex-col justify-center gap-8 sm:flex-row sm:flex-wrap sm:gap-12">
               {content.details.map((detail) => (
                 <div key={detail.label}>
