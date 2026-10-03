@@ -7,12 +7,13 @@ type CtaLinkProps = {
   className?: string;
   target?: "_blank" | "_self";
   rel?: string;
+  size?: "sm" | "md";
 };
 
 const variantClasses: Record<NonNullable<CtaLinkProps["variant"]>, string> = {
   primary:
-    "bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-[0_20px_50px_rgba(192,193,255,0.18)] hover:brightness-105",
-  secondary: "bg-surface-container-highest text-secondary hover:bg-surface-bright",
+    "bg-primary text-on-primary hover:bg-primary-fixed",
+  secondary: "border border-outline-variant bg-surface-container-high text-primary hover:bg-surface-bright",
   ghost: "bg-on-background text-background hover:opacity-90",
 };
 
@@ -23,6 +24,7 @@ export function CtaLink({
   className = "",
   target,
   rel,
+  size = "md",
 }: CtaLinkProps) {
   return (
     <a
@@ -30,7 +32,8 @@ export function CtaLink({
       target={target}
       rel={rel}
       className={[
-        "inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "inline-flex min-h-11 items-center justify-center rounded-lg font-bold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        size === "sm" ? "px-3 py-2 text-xs" : "px-6 py-3 text-sm",
         variantClasses[variant],
         className,
       ].join(" ")}

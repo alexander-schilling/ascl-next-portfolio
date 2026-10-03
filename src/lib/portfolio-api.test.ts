@@ -16,6 +16,21 @@ describe("getPortfolioData", () => {
     vi.restoreAllMocks();
   });
 
+  it.each(["es", "en"] as const)("keeps real localized public content when the backend fails (%s)", async (lang) => {
+    vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("Backend unavailable"));
+
+    const result = await getPortfolioData(lang);
+
+    expect(result.siteContent.hero.title).toBe(lang === "es" ? "Diseñando Sistemas," : "Crafting Systems,");
+    expect(result.siteContent.contact.details[0].value).toContain("Santiago, Chile");
+    expect(result.siteContent.experience[0].company).toBe("Cencosud Scotiabank");
+    expect(result.siteContent.resumeUrl).toContain(`cv_${lang}_public_schilling_alexander`);
+    expect(result.siteContent.passions.instagramUrl).toContain("schilling_lens");
+    expect(result.siteContent.passions.gallery).toEqual([]);
+    expect(result.diagnostics.warnings).toEqual([expect.stringContaining("Backend unavailable")]);
+    expect(JSON.stringify(result.siteContent)).not.toMatch(/New York|Visa\/Mastercard Ecosystem|99\.99%|500k/);
+  });
+
   it("maps CMS file identifiers into hero, resume, brand, about and hispano images", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: true,

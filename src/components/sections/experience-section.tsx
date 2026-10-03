@@ -103,7 +103,7 @@ function getCardAccent(groupIndex: number, hasImage: boolean): CardAccent {
     glow: "",
     company: "text-outline",
     divider: "border-outline-variant/10",
-    card: "bg-surface-container-lowest opacity-80",
+    card: "bg-surface-container-lowest",
   };
 }
 
@@ -121,10 +121,10 @@ function getRoleAccent(groupIndex: number, roleIndex: number): RoleAccent {
   }
   // Past roles within the active company, or any role in a past company
   return {
-    period: "text-outline/60",
-    title: "text-on-surface/65",
-    icon: "text-outline/45",
-    badge: "bg-surface-container text-on-surface-variant/60 border border-outline-variant/15",
+    period: "text-on-surface-variant",
+    title: "text-on-surface",
+    icon: "text-on-surface-variant",
+    badge: "bg-surface-container text-on-surface-variant border border-outline-variant/15",
     roleDot: "border border-outline-variant/40 bg-transparent",
     rowTint: "",
   };
@@ -164,7 +164,7 @@ function RoleRow({ item, groupIndex, roleIndex, isMultiRole, isLastRole, cardAcc
           {item.period}
           {isActive && (
             <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-tertiary/12 px-1.5 py-px text-[9px] font-bold uppercase tracking-wider text-tertiary">
-              <span className="h-1 w-1 rounded-full bg-tertiary animate-pulse" />
+              <span className="h-1 w-1 rounded-full bg-tertiary" />
               {nowLabel}
             </span>
           )}
@@ -181,14 +181,14 @@ function RoleRow({ item, groupIndex, roleIndex, isMultiRole, isLastRole, cardAcc
             <span className={["text-sm font-semibold", cardAccent.company].join(" ")}>{item.company}</span>
             {item.companyLinkedin ? (
               <a href={item.companyLinkedin} target="_blank" rel="noreferrer" aria-label={`LinkedIn de ${item.company}`}
-                className="opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary">
-                <LinkedinIcon className="h-3.5 w-3.5" />
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+                <LinkedinIcon className="h-4 w-4" />
               </a>
             ) : null}
             {item.companyUrl ? (
               <a href={item.companyUrl} target="_blank" rel="noreferrer" aria-label={`Sitio web de ${item.company}`}
-                className="opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary">
-                <WebIcon className="h-3.5 w-3.5" />
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+                <WebIcon className="h-4 w-4" />
               </a>
             ) : null}
             {item.modality ? (
@@ -209,14 +209,14 @@ function RoleRow({ item, groupIndex, roleIndex, isMultiRole, isLastRole, cardAcc
         {/* Highlights */}
         <ul className={["gap-x-8 gap-y-2", item.highlights.length > 2 ? "grid grid-cols-1 md:grid-cols-2" : "flex flex-col"].join(" ")}>
           {item.highlights.map((highlight, hi) => (
-            <li key={`${highlight.text}-${hi}`} className="flex items-start gap-2 text-sm leading-snug text-on-surface-variant/80">
+            <li key={`${highlight.text}-${hi}`} className="flex items-start gap-2 text-sm leading-snug text-on-surface-variant">
               <ContentIcon
                 iconKey={highlight.iconKey}
                 fallbackIconKey="insights"
                 className={["mt-0.75 h-3.5 w-3.5 shrink-0", role.icon].join(" ")}
                 aria-hidden
               />
-              <span className={isActive ? "text-on-surface-variant" : "text-on-surface-variant/60"}>{highlight.text}</span>
+              <span>{highlight.text}</span>
             </li>
           ))}
         </ul>
@@ -233,7 +233,7 @@ function RoleRow({ item, groupIndex, roleIndex, isMultiRole, isLastRole, cardAcc
 
       {/* Image — single-role mobile */}
       {!isMultiRole && item.imageUrl ? (
-        <div className="sm:hidden absolute top-4 right-4">
+        <div className="sm:hidden shrink-0 pt-1">
           <div className="relative h-10 w-16 overflow-hidden rounded-md bg-surface-container-highest opacity-40">
             <Image src={item.imageUrl} alt={item.company} fill className="object-cover" sizes="64px" />
           </div>
@@ -269,7 +269,7 @@ export function ExperienceSection({
   return (
     <SectionShell id="experience" className="bg-surface">
       <div ref={revealRef} className="reveal">
-        <div className="mb-20 flex flex-col items-center gap-12 text-center md:items-end md:flex-row md:text-left">
+        <div className="mb-12 flex flex-col items-start gap-6 text-left">
           <div className="flex-1">
             <SectionIntro
               eyebrow={eyebrow}
@@ -283,7 +283,7 @@ export function ExperienceSection({
             />
           </div>
           <div className="flex-1 pb-2">
-            <p className="max-w-md text-lg leading-relaxed text-on-surface-variant">{description}</p>
+            <p className="max-w-2xl text-lg leading-relaxed text-on-surface-variant">{description}</p>
           </div>
         </div>
 
@@ -317,17 +317,17 @@ export function ExperienceSection({
                         <span className={["text-base font-bold tracking-wide", cardAccent.company].join(" ")}>{group.company}</span>
                         {group.companyLinkedin ? (
                           <a href={group.companyLinkedin} target="_blank" rel="noreferrer" aria-label={`LinkedIn de ${group.company}`}
-                            className="opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary">
-                            <LinkedinIcon className="h-3.5 w-3.5" />
+                            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+                            <LinkedinIcon className="h-4 w-4" />
                           </a>
                         ) : null}
                         {group.companyUrl ? (
                           <a href={group.companyUrl} target="_blank" rel="noreferrer" aria-label={`Sitio web de ${group.company}`}
-                            className="opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary">
-                            <WebIcon className="h-3.5 w-3.5" />
+                            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+                            <WebIcon className="h-4 w-4" />
                           </a>
                         ) : null}
-                        <span className="text-[10px] text-outline/50 font-mono uppercase tracking-wider">
+                        <span className="text-[10px] text-on-surface-variant font-mono uppercase tracking-wider">
                           {group.roles.length} {rolesLabel}
                         </span>
                       </div>

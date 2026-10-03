@@ -23,7 +23,7 @@ export function SectionIntro({
         <span className="text-xs uppercase tracking-[0.3em] text-secondary">{eyebrow}</span>
       ) : null}
       <div className="space-y-4">
-        <div className="font-headline text-4xl font-bold leading-tight text-on-surface md:text-5xl">{title}</div>
+        <h2 className="font-headline text-3xl font-semibold leading-tight text-on-surface sm:text-4xl lg:text-5xl">{title}</h2>
         {description ? <div className="max-w-2xl text-lg leading-relaxed text-on-surface-variant">{description}</div> : null}
       </div>
     </div>

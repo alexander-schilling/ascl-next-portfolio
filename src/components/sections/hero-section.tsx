@@ -1,66 +1,35 @@
 import Image from "next/image";
-
 import { CtaLink } from "@/components/ui/cta-link";
 import type { HeroContent } from "@/types/portfolio";
 
-type HeroSectionProps = {
-  content: HeroContent;
-};
-
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({ content }: { content: HeroContent }) {
   return (
-    <section className="hero-grain relative flex min-h-[90vh] items-center justify-center overflow-hidden pt-20">
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={content.backgroundImageUrl}
-          alt=""
-          fill
-          className="object-cover object-center opacity-20"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
+    <section className="relative flex min-h-[min(54rem,100svh)] items-center overflow-hidden pt-24 pb-16 sm:pb-20">
+      <div className="absolute inset-0">
+        <Image src={content.backgroundImageUrl} alt="" fill preload
+          className="object-cover object-center opacity-25" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-8 text-center md:text-left">
-        <div className="mx-auto max-w-5xl md:mx-0">
-          <span className="mb-6 inline-block rounded bg-primary/10 px-3 py-1 text-sm font-bold uppercase tracking-widest text-primary">
-            {content.badge}
-          </span>
-          <h1 className="mb-8 font-headline text-5xl font-bold leading-[1.1] tracking-tighter text-on-background md:text-8xl">
-            {content.title}
-            <br />
-            <span className="italic text-secondary">{content.highlightedTitle}</span>
-          </h1>
-          <p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed text-on-surface-variant md:mx-0">
-            {content.subtitle}
-          </p>
-          <div className="flex flex-col justify-center gap-4 sm:flex-row md:justify-start">
-            <CtaLink href={content.primaryCta.href} className="px-8 py-4 text-sm sm:text-base">
-              {content.primaryCta.label}
-            </CtaLink>
-            <CtaLink href={content.secondaryCta.href} variant="ghost" className="px-8 py-4 text-sm sm:text-base">
-              {content.secondaryCta.label}
-            </CtaLink>
-          </div>
+      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <span className="mb-6 block text-xs font-semibold uppercase tracking-[0.16em] text-primary sm:text-sm">
+          {content.badge}
+        </span>
+        <h1 className="hero-title mb-7 font-headline font-semibold tracking-tight text-on-background">
+          <span className="block">{content.title}</span>
+          <span className="block pb-1 italic text-primary">{content.highlightedTitle}</span>
+        </h1>
+        <p className="mb-8 max-w-2xl text-base leading-relaxed text-on-surface-variant sm:text-lg">
+          {content.subtitle}
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+          <CtaLink href={content.primaryCta.href} className="px-7 py-3.5 text-base">
+            {content.primaryCta.label}
+          </CtaLink>
+          <CtaLink href={content.secondaryCta.href} variant="secondary" className="px-7 py-3.5 text-base">
+            {content.secondaryCta.label}
+          </CtaLink>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/50">{content.scrollLabel}</span>
-        <svg
-          className="h-5 w-5 text-on-surface-variant/40"
-          style={{ animation: "bounce-y 1.8s ease-in-out infinite" }}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.5}
-          aria-hidden
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
       </div>
     </section>
   );
 }
-

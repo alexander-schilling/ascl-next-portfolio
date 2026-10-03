@@ -36,7 +36,8 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
   const { siteContent, diagnostics } = await getPortfolioData(lang);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-on-background font-body selection:bg-primary/30">
+    <div lang={lang} className="flex min-h-[100dvh] flex-col bg-background text-on-background font-body selection:bg-primary/30">
+      <a href="#main-content" className="skip-link">{lang === "es" ? "Saltar al contenido" : "Skip to content"}</a>
       <MissingContentAlert diagnostics={diagnostics} />
       <SiteHeader
         brand={siteContent.brand}
@@ -47,7 +48,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
         languageSwitcher={siteContent.languageSwitcher}
         currentLang={lang}
       />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <HeroSection content={siteContent.hero} />
         <AboutSection content={siteContent.about} />
         <ExperienceSection
@@ -60,7 +61,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           nowLabel={siteContent.experienceSection.nowLabel}
           rolesLabel={siteContent.experienceSection.rolesLabel}
         />
-        <PassionsSection content={siteContent.passions} />
+        <PassionsSection content={siteContent.passions} lang={lang} />
         <GamingSection content={siteContent.gaming} />
         <ContactSection content={siteContent.contact} />
       </main>
