@@ -6,12 +6,18 @@ import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionShell } from "@/components/ui/section-shell";
 import { ContentIcon, getSectionIconTone } from "@/lib/content-icons";
 import type { GamingContent } from "@/types/portfolio";
+import type { SupportedLanguage } from "@/lib/i18n";
 
 type GamingSectionProps = {
   content: GamingContent;
+  lang: SupportedLanguage;
 };
 
-export function GamingSection({ content }: GamingSectionProps) {
+export function GamingSection({ content, lang }: GamingSectionProps) {
+  const imageAlt = lang === "es"
+    ? "Ilustración de Comunidad Hispano con dos robots y personajes de videojuegos."
+    : "Illustration of Comunidad Hispano with two robots and video game characters.";
+
   return (
     <SectionShell id="gaming" className="bg-surface">
       <RevealWrapper>
@@ -22,7 +28,7 @@ export function GamingSection({ content }: GamingSectionProps) {
 
             <div className="relative flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-center">
               <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl md:hidden">
-                <Image src={content.imageUrl} alt="" fill className="object-cover opacity-80" sizes="100vw" />
+                <Image src={content.imageUrl} alt={imageAlt} fill className="object-cover opacity-80" sizes="100vw" />
               </div>
 
               <div className="lg:order-1">
@@ -64,7 +70,7 @@ export function GamingSection({ content }: GamingSectionProps) {
             </div>
 
               <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl hidden md:block lg:order-2">
-              <Image src={content.imageUrl} alt="" fill className="object-cover opacity-80" sizes="(min-width: 1024px) 50vw, 100vw" />
+              <Image src={content.imageUrl} alt={imageAlt} fill className="object-cover opacity-80" sizes="(min-width: 1024px) 50vw, 100vw" />
             </div>
           </div>
         </div>

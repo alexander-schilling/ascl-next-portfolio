@@ -66,7 +66,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           rolesLabel={siteContent.experienceSection.rolesLabel}
         />
         <PassionsSection content={siteContent.passions} lang={lang} />
-        <GamingSection content={siteContent.gaming} />
+        <GamingSection content={siteContent.gaming} lang={lang} />
         <ContactSection content={siteContent.contact} />
       </main>
       <SiteFooter
