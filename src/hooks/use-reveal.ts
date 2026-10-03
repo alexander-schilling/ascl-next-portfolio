@@ -2,30 +2,25 @@
 
 import { useEffect, useRef } from "react";
 
-/**
- * Adds the `is-visible` class to the element when it enters the viewport,
- * triggering the `reveal-up` CSS animation defined in globals.css.
- */
-export function useReveal<T extends HTMLElement = HTMLElement>(threshold = 0.12) {
+/** Content remains visible without JS; animate only content below the viewport. */
+export function useReveal<T extends HTMLElement = HTMLElement>() {
   const ref = useRef<T>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const element = ref.current;
+    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("is-visible");
-          observer.disconnect();
-        }
-      },
-      { threshold },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold]);
+    element.classList.add("is-pending");
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      element.classList.remove("is-pending");
+      element.classList.add("is-visible");
+      observer.disconnect();
+    }, { rootMargin: "0px 0px -32px 0px", threshold: 0 });
+    observer.observe(element);
+    return () => { observer.disconnect(); element.classList.remove("is-pending"); };
+  }, []);
 
   return ref;
 }

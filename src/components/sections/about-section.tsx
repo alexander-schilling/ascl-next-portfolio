@@ -13,19 +13,19 @@ export function AboutSection({ content }: AboutSectionProps) {
   return (
     <SectionShell id="about" className="bg-surface-container-low">
       <RevealWrapper>
-      <div className="grid grid-cols-1 items-center gap-20 lg:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div className="relative order-1 lg:order-1">
-          <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-surface-container-high shadow-2xl">
-            <Image src={content.portraitUrl} alt={content.heading} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
+          <div className="relative aspect-4/5 overflow-hidden rounded-2xl bg-surface-container-high">
+            <Image src={content.portraitUrl} alt={content.heading} fill className="object-cover" sizes="(min-width: 1280px) 568px, (min-width: 1024px) 45vw, 100vw" />
           </div>
-          <div className="glass-card absolute -left-6 -top-6 rounded-2xl border border-primary/20 p-6 shadow-xl">
+          <div className="glass-card absolute bottom-4 left-4 right-4 rounded-xl border border-primary/20 p-5 sm:right-auto">
             <p className="mb-1 text-sm font-bold uppercase tracking-widest text-primary">{content.statusTitle}</p>
             <p className="text-lg font-bold text-on-surface">{content.statusLabel}</p>
           </div>
         </div>
 
         <div className="order-2 lg:order-2">
-          <h2 className="mb-8 font-headline text-4xl font-bold">{content.heading}</h2>
+          <h2 className="mb-6 font-headline text-3xl font-semibold sm:text-4xl">{content.heading}</h2>
           <div className="space-y-6 text-lg text-on-surface-variant">
             {content.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -42,7 +42,7 @@ export function AboutSection({ content }: AboutSectionProps) {
                     aria-hidden={true}
                   />
                   <div>
-                    <h4 className="font-bold text-on-surface">{feature.title}</h4>
+                    <h3 className="font-bold text-on-surface">{feature.title}</h3>
                     <p className="text-sm text-on-surface-variant">{feature.description}</p>
                   </div>
                 </div>

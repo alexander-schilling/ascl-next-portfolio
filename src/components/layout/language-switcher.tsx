@@ -38,9 +38,9 @@ export function LanguageSwitcher({ currentLang, labels, compact = false }: Langu
 
   return (
     <div
-      className={`inline-flex items-center rounded-full border border-slate-700/80 bg-slate-900/70 p-1 font-bold uppercase ${compact ? "text-[10px] tracking-normal" : "text-xs tracking-widest"}`}
+      className={`inline-flex items-center rounded-full border border-outline-variant bg-surface-container p-0.5 font-bold uppercase ${compact ? "text-xs tracking-normal" : "text-xs tracking-widest"}`}
       role="group"
-      aria-label="Language selector"
+      aria-label={currentLang === "es" ? "Selector de idioma" : "Language selector"}
     >
       {SUPPORTED_LANGUAGES.map((lang) => {
         const isActive = lang === currentLang;
@@ -51,10 +51,11 @@ export function LanguageSwitcher({ currentLang, labels, compact = false }: Langu
             type="button"
             onClick={() => goToLanguage(lang)}
             aria-current={isActive ? "page" : undefined}
+            aria-label={currentLang === "es" ? (lang === "es" ? "Idioma español" : "Cambiar a inglés") : (lang === "en" ? "English language" : "Switch to Spanish")}
             className={
               isActive
-                ? `cursor-pointer rounded-full bg-indigo-500 text-white ${compact ? "px-2 py-1" : "px-3 py-1"}`
-                : `cursor-pointer rounded-full text-slate-300 transition-colors hover:text-white ${compact ? "px-2 py-1" : "px-3 py-1"}`
+                ? "min-h-11 min-w-11 cursor-pointer rounded-full bg-primary px-3 text-on-primary"
+                : "min-h-11 min-w-11 cursor-pointer rounded-full px-3 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface"
             }
           >
             {compact ? lang.toUpperCase() : (lang === "en" ? labels.enLabel : labels.esLabel)}

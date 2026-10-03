@@ -11,6 +11,7 @@ import { PassionsSection } from "@/components/sections/passions-section";
 import { MissingContentAlert } from "@/components/ui/missing-content-alert";
 import { SUPPORTED_LANGUAGES, isSupportedLanguage } from "@/lib/i18n";
 import { getPortfolioData } from "@/lib/portfolio-api";
+import { siteContent as templateContent } from "@/data/portfolio";
 
 // Force dynamic rendering so that PORTFOLIO_API_BASE_URL and other server-side
 // env vars are read from the container's runtime environment on every request,
@@ -34,9 +35,14 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
   }
 
   const { siteContent, diagnostics } = await getPortfolioData(lang);
+  // Template stock photos are not Alexander's gallery. Keep CMS photos as the
+  // fallback; while Instagram loads, show an honest loading state instead.
+  const templatePhotos = new Set(templateContent.passions.gallery.map((photo) => photo.imageUrl));
+  const passions = { ...siteContent.passions, gallery: siteContent.passions.gallery.filter((photo) => !templatePhotos.has(photo.imageUrl)) };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-on-background font-body selection:bg-primary/30">
+    <div lang={lang} className="flex min-h-[100dvh] flex-col bg-background text-on-background font-body selection:bg-primary/30">
+      <a href="#main-content" className="skip-link">{lang === "es" ? "Saltar al contenido" : "Skip to content"}</a>
       <MissingContentAlert diagnostics={diagnostics} />
       <SiteHeader
         brand={siteContent.brand}
@@ -47,7 +53,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
         languageSwitcher={siteContent.languageSwitcher}
         currentLang={lang}
       />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <HeroSection content={siteContent.hero} />
         <AboutSection content={siteContent.about} />
         <ExperienceSection
@@ -60,7 +66,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           nowLabel={siteContent.experienceSection.nowLabel}
           rolesLabel={siteContent.experienceSection.rolesLabel}
         />
-        <PassionsSection content={siteContent.passions} />
+        <PassionsSection content={passions} lang={lang} />
         <GamingSection content={siteContent.gaming} />
         <ContactSection content={siteContent.contact} />
       </main>
