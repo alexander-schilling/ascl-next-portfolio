@@ -92,8 +92,11 @@ export function PassionsSection({ content, lang }: { content: PassionContent; la
           <div role="status" aria-label={text.remoteLoading}>
             <p className="sr-only">{text.remoteLoading}</p>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-3" aria-hidden>
-              {Array.from({ length: 5 }, (_, index) => <div key={index}
-                className={`aspect-[4/5] rounded-2xl bg-surface-container-high ${index === 0 ? "md:col-span-2 md:row-span-2" : ""}`} />)}
+              {Array.from({ length: 12 }, (_, index) => <div key={index}
+                className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}>
+                <div className="aspect-[4/5] rounded-2xl bg-surface-container-high" />
+                <div className="h-12" />
+              </div>)}
             </div>
           </div>
         ) : (
