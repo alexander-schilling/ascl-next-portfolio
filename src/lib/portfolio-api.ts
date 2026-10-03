@@ -1,5 +1,5 @@
 import { unstable_cache } from "next/cache";
-import { siteContent as fallbackSiteContent } from "@/data/portfolio";
+import { getFallbackSiteContent } from "@/data/portfolio";
 import {
   inferAboutFeatureIconKey,
   inferCareerHighlightIconKey,
@@ -81,7 +81,7 @@ function createFallbackDiagnostics(warnings: string[]): PortfolioDiagnostics {
 function createFallbackResult(lang: PortfolioLanguage, warnings: string[]): PortfolioDataResult {
   return {
     lang,
-    siteContent: applyUILabels(localizeSiteChrome(fallbackSiteContent, lang), lang),
+    siteContent: applyUILabels(getFallbackSiteContent(lang), lang),
     diagnostics: createFallbackDiagnostics(warnings),
   };
 }
@@ -286,66 +286,6 @@ function applyUILabels(content: SiteContent, lang: PortfolioLanguage): SiteConte
   };
 }
 
-function localizeSiteChrome(content: SiteContent, lang: PortfolioLanguage) {
-  if (lang === "es") {
-    return {
-      ...content,
-      navLinks: [
-        { label: "Historia", href: "#about" },
-        { label: "Carrera", href: "#experience" },
-        { label: "Pasiones", href: "#passions" },
-        { label: "Contacto", href: "#contact" },
-      ],
-      resumeLabel: "CV",
-      languageSwitcher: {
-        enLabel: "Ingles",
-        esLabel: "Español",
-      },
-      experienceShowMoreLabel: "Ver hitos anteriores",
-      seo: {
-        title: "Alexander | Portafolio de Data Engineering",
-        description: "Portafolio de Alexander: Data Engineering Tech Lead, arquitectura de sistemas distribuidos y proyectos personales.",
-        openGraphDescription: "Sistemas a escala, liderazgo técnico y creatividad fuera de la terminal.",
-        siteName: "Portafolio de Alexander",
-      },
-      manifest: {
-        name: "Alexander | Portafolio de Data Engineering",
-        shortName: "Alexander",
-        description: "Portafolio personal de un Data Engineering Tech Lead enfocado en sistemas distribuidos, liderazgo y trabajo creativo.",
-      },
-      footerNote: "Alexander • Construido con pasion y precision.",
-    };
-  }
-
-  return {
-    ...content,
-    navLinks: [
-      { label: "Story", href: "#about" },
-      { label: "Career", href: "#experience" },
-      { label: "Passions", href: "#passions" },
-      { label: "Contact", href: "#contact" },
-    ],
-    resumeLabel: "Resume",
-    languageSwitcher: {
-      enLabel: "English",
-      esLabel: "Spanish",
-    },
-    experienceShowMoreLabel: "View Prior Milestones",
-    seo: {
-      title: "Alexander | Data Engineering Portfolio",
-      description: "Alexander's portfolio: Data Engineering Tech Lead, distributed systems architecture, and personal projects.",
-      openGraphDescription: "Systems at scale, technical leadership, and creativity beyond the terminal.",
-      siteName: "Alexander Portfolio",
-    },
-    manifest: {
-      name: "Alexander | Data Engineering Portfolio",
-      shortName: "Alexander",
-      description: "Personal portfolio for a Data Engineering Tech Lead focused on distributed systems, leadership, and creative work.",
-    },
-    footerNote: "Alexander • Built with Passion and Precision.",
-  };
-}
-
 function parseCareerHighlights(item: PortfolioCareerItem) {
   const lines = parseRichTextBlocks(item.description).map((block) => ({
     text: block.text,
@@ -407,7 +347,7 @@ async function loadRemotePortfolioData(baseUrl: string, lang: PortfolioLanguage,
     ]);
   }
 
-  const mapped = mapToSiteContent(payload);
+  const mapped = mapToSiteContent(payload, lang);
 
   return {
     lang,
@@ -433,7 +373,8 @@ async function getCachedRemotePortfolioData(baseUrl: string, lang: PortfolioLang
   )();
 }
 
-function mapToSiteContent(payload: PortfolioApiResponse): { siteContent: SiteContent; diagnostics: PortfolioDiagnostics } {
+function mapToSiteContent(payload: PortfolioApiResponse, lang: PortfolioLanguage): { siteContent: SiteContent; diagnostics: PortfolioDiagnostics } {
+  const fallbackSiteContent = getFallbackSiteContent(lang);
   const contentMap = getContentMap(payload.content);
   const socialMap = getSocialMap(payload.social);
   const fileMap = getFileMap(payload.files);

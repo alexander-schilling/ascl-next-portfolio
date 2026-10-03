@@ -14,8 +14,8 @@ export function SectionShell({
   children,
 }: SectionShellProps) {
   return (
-    <section id={id} className={["py-32", className].join(" ")}>
-      <div className={["mx-auto w-full max-w-7xl px-8", containerClassName].join(" ")}>{children}</div>
+    <section id={id} className={["py-20 sm:py-24 lg:py-32", className].join(" ")}>
+      <div className={["mx-auto w-full max-w-7xl px-5 sm:px-8", containerClassName].join(" ")}>{children}</div>
     </section>
   );
 }

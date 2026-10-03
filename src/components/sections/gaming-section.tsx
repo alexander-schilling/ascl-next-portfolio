@@ -15,12 +15,12 @@ export function GamingSection({ content }: GamingSectionProps) {
   return (
     <SectionShell id="gaming" className="bg-surface">
       <RevealWrapper>
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-surface-container-low p-8 md:p-16">
+        <div className="relative overflow-hidden rounded-2xl bg-surface-container-low p-5 sm:p-8 lg:p-12">
           <div className="pointer-events-none absolute right-0 top-0 h-full w-1/3 opacity-10">
             <Image src={content.imageUrl} alt="" fill className="object-cover grayscale" sizes="33vw" />
           </div>
 
-            <div className="relative z-10 flex flex-col gap-16 lg:grid lg:grid-cols-2 lg:items-center">
+            <div className="relative flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-center">
               <div className="relative aspect-video overflow-hidden rounded-2xl bg-surface shadow-2xl md:hidden">
                 <Image src={content.imageUrl} alt="" fill className="object-cover opacity-80" sizes="100vw" />
               </div>
@@ -40,7 +40,7 @@ export function GamingSection({ content }: GamingSectionProps) {
               <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2">
                 {content.stats.map((stat) => (
                   <div key={stat.label} className="rounded-xl bg-surface-container p-4">
-                    <h4 className="mb-1 font-bold text-tertiary">{stat.label}</h4>
+                    <h3 className="mb-1 font-bold text-tertiary">{stat.label}</h3>
                     <p className="text-sm text-on-surface-variant">{stat.value}</p>
                   </div>
                 ))}

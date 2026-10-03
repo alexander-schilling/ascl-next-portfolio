@@ -1,92 +1,43 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-
+import { useEffect, useState } from "react";
 import type { NavLink } from "@/types/portfolio";
 
-type ScrollSpyNavLinksProps = {
-  links: NavLink[];
-};
-
-const HEADER_OFFSET_PX = 120;
-
-function isHashLink(href: string) {
-  return href.startsWith("#") && href.length > 1;
-}
-
-export function ScrollSpyNavLinks({ links }: ScrollSpyNavLinksProps) {
-  const hashLinks = useMemo(() => links.filter((link) => isHashLink(link.href)), [links]);
-  const [activeHref, setActiveHref] = useState<string>(hashLinks[0]?.href ?? "");
+export function ScrollSpyNavLinks({ links }: { links: NavLink[] }) {
+  const [activeHref, setActiveHref] = useState("");
 
   useEffect(() => {
-    if (hashLinks.length === 0) {
-      return;
-    }
+    const sections = links.filter((link) => link.href.startsWith("#") && link.href.length > 1)
+      .map((link) => ({ href: link.href, element: document.getElementById(link.href.slice(1)) }))
+      .filter((section): section is { href: string; element: HTMLElement } => !!section.element);
+    if (!sections.length || !("IntersectionObserver" in window)) return;
 
-    const updateActiveFromScroll = () => {
-      let nextActiveHref = hashLinks[0].href;
-
-      for (const link of hashLinks) {
-        const section = document.querySelector(link.href);
-
-        if (!section) {
-          continue;
-        }
-
-        const top = section.getBoundingClientRect().top;
-
-        if (top - HEADER_OFFSET_PX <= 0) {
-          nextActiveHref = link.href;
-        }
-      }
-
-      setActiveHref((current) => (current === nextActiveHref ? current : nextActiveHref));
+    const update = () => {
+      // Only measure when a section crosses the header, never on every scroll frame.
+      // Leave a little tolerance for fractional scroll positions at hash targets.
+      const reached = sections.filter(({ element }) => element.getBoundingClientRect().top <= 128);
+      setActiveHref(reached.at(-1)?.href ?? "");
     };
-
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) {
-        return;
-      }
-
-      ticking = true;
-      window.requestAnimationFrame(() => {
-        updateActiveFromScroll();
-        ticking = false;
-      });
+    let observer: IntersectionObserver;
+    const observe = () => {
+      observer?.disconnect();
+      // A narrow band immediately below the fixed header changes intersection
+      // when each section starts, including sections taller than the viewport.
+      observer = new IntersectionObserver(update, { rootMargin: `-96px 0px ${112 - window.innerHeight}px 0px`, threshold: 0 });
+      sections.forEach(({ element }) => observer.observe(element));
+      update();
     };
+    observe();
+    window.addEventListener("resize", observe);
+    window.addEventListener("hashchange", update);
+    return () => { observer.disconnect(); window.removeEventListener("resize", observe); window.removeEventListener("hashchange", update); };
+  }, [links]);
 
-    updateActiveFromScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [hashLinks]);
-
-  return (
-    <>
-      {links.map((link) => {
-        const isActive = link.href === activeHref;
-
-        return (
-          <a
-            key={`${link.href}-${link.label}`}
-            className={
-              isActive
-                ? "border-b-2 border-indigo-400 pb-1 text-indigo-400"
-                : "text-slate-400 transition-colors hover:text-slate-100"
-            }
-            href={link.href}
-            aria-current={isActive ? "page" : undefined}
-          >
-            {link.label}
-          </a>
-        );
-      })}
-    </>
-  );
+  return links.map((link) => (
+    <a key={`${link.href}-${link.label}`} href={link.href}
+      className={`inline-flex min-h-11 items-center border-b-2 transition-colors ${link.href === activeHref ? "border-primary text-primary" : "border-transparent text-on-surface-variant hover:text-on-surface"}`}
+      aria-current={link.href === activeHref ? "location" : undefined}>
+      {link.label}
+    </a>
+  ));
 }
-
