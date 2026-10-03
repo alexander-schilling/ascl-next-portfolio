@@ -67,10 +67,10 @@ export function PassionsSection({ content, lang }: { content: PassionContent; la
               const title = photoLabel(photo, index, lang);
               const featured = index === 0 && photo.featured;
               return (
-                <article key={photo.imageUrl} className={featured ? "md:col-span-2" : ""}>
+                <article key={photo.imageUrl} className={featured ? "md:col-span-2 md:row-span-2" : ""}>
                   <button type="button" aria-label={`${text.open}: ${title}`}
                     onClick={() => setViewer({ photos: gallery, index })}
-                    className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl bg-surface-container-high ${featured ? "aspect-[16/10]" : "aspect-[4/5]"}`}>
+                    className="group relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-surface-container-high">
                     <PhotoImage photo={photo} alt={title} errorLabel={text.error} loadingLabel={text.loading}
                       sizes={featured ? "(min-width: 1280px) 800px, (min-width: 768px) 65vw, 100vw" : "(min-width: 1280px) 400px, (min-width: 768px) 33vw, 100vw"} />
                     <span className="absolute right-3 bottom-3 flex h-11 w-11 items-center justify-center rounded-lg bg-background/90 text-on-surface transition-colors group-hover:bg-primary group-hover:text-on-primary" aria-hidden>
@@ -93,7 +93,7 @@ export function PassionsSection({ content, lang }: { content: PassionContent; la
             <p className="sr-only">{text.remoteLoading}</p>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-3" aria-hidden>
               {Array.from({ length: 5 }, (_, index) => <div key={index}
-                className={`rounded-2xl bg-surface-container-high ${index === 0 ? "aspect-[16/10] md:col-span-2" : "aspect-[4/5]"}`} />)}
+                className={`aspect-[4/5] rounded-2xl bg-surface-container-high ${index === 0 ? "md:col-span-2 md:row-span-2" : ""}`} />)}
             </div>
           </div>
         ) : (
