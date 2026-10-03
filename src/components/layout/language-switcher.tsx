@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import type { MouseEvent } from "react";
 
 import { buildLocalizedHref } from "@/lib/i18n-routing";
 import type { LanguageSwitcherContent } from "@/types/portfolio";
@@ -15,25 +16,15 @@ type LanguageSwitcherProps = {
 const SUPPORTED_LANGUAGES: PortfolioLanguage[] = ["en", "es"];
 
 export function LanguageSwitcher({ currentLang, labels, compact = false }: LanguageSwitcherProps) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const goToLanguage = (targetLang: PortfolioLanguage) => {
-    if (targetLang === currentLang) {
-      return;
-    }
-
-    const hash = typeof window !== "undefined" ? window.location.hash : "";
-    const search = searchParams.toString();
-    const nextHref = buildLocalizedHref({
-      pathname,
-      targetLang,
-      search,
-      hash,
-    });
-
-    router.push(nextHref);
+  const preserveHash = (event: MouseEvent<HTMLAnchorElement>) => {
+    // The server emits a real link; include the current fragment on activation
+    // without preventing native navigation, modified clicks or opening a tab.
+    const destination = new URL(event.currentTarget.href);
+    destination.hash = window.location.hash;
+    event.currentTarget.href = destination.href;
   };
 
   return (
@@ -46,20 +37,22 @@ export function LanguageSwitcher({ currentLang, labels, compact = false }: Langu
         const isActive = lang === currentLang;
 
         return (
-          <button
+          <a
             key={lang}
-            type="button"
-            onClick={() => goToLanguage(lang)}
+            href={buildLocalizedHref({ pathname, targetLang: lang, search: searchParams.toString() })}
+            onClick={preserveHash}
+            hrefLang={lang}
+            lang={lang}
             aria-current={isActive ? "page" : undefined}
             aria-label={currentLang === "es" ? (lang === "es" ? "Idioma español" : "Cambiar a inglés") : (lang === "en" ? "English language" : "Switch to Spanish")}
             className={
               isActive
-                ? "min-h-11 min-w-11 cursor-pointer rounded-full bg-primary px-3 text-on-primary"
-                : "min-h-11 min-w-11 cursor-pointer rounded-full px-3 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface"
+                ? "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-primary px-3 text-on-primary"
+                : "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-3 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface"
             }
           >
             {compact ? lang.toUpperCase() : (lang === "en" ? labels.enLabel : labels.esLabel)}
-          </button>
+          </a>
         );
       })}
     </div>
