@@ -11,6 +11,7 @@ import { PassionsSection } from "@/components/sections/passions-section";
 import { MissingContentAlert } from "@/components/ui/missing-content-alert";
 import { SUPPORTED_LANGUAGES, isSupportedLanguage } from "@/lib/i18n";
 import { getPortfolioData } from "@/lib/portfolio-api";
+import { getProfileSchema, serializeProfileSchema } from "@/lib/profile-schema";
 
 // Force dynamic rendering so that PORTFOLIO_API_BASE_URL and other server-side
 // env vars are read from the container's runtime environment on every request,
@@ -37,6 +38,9 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
 
   return (
     <div lang={lang} className="flex min-h-[100dvh] flex-col bg-background text-on-background font-body selection:bg-primary/30">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: serializeProfileSchema(getProfileSchema(lang, siteContent)),
+      }} />
       <a href="#main-content" className="skip-link">{lang === "es" ? "Saltar al contenido" : "Skip to content"}</a>
       <MissingContentAlert diagnostics={diagnostics} />
       <SiteHeader
