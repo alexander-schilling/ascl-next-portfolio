@@ -41,7 +41,7 @@ Header layer is 40, keyboard skip link 50, native dialogs use the browser top la
 
 ## Validation
 
-Automated: ESLint, TypeScript, production build, 29 Vitest tests and four deployment
+Automated: ESLint, TypeScript, production build, 31 Vitest tests and four deployment
 helper tests pass. Local Google Fonts compilation required the system TLS trust
 store (`NEXT_TURBOPACK_EXPERIMENTAL_USE_SYSTEM_TLS_CERTS=1`); no certificate
 verification was disabled. Build uses the existing dynamic runtime content flow.
@@ -73,3 +73,14 @@ The available in-app browser does not expose a Lighthouse runner. No Lighthouse
 score or measured field Core Web Vitals claim is made. Performance improvements
 are structural (no original-image preloading, reserved frames, observer-driven
 navigation); production field LCP/INP/CLS still need measurement.
+
+## Backend outage recovery
+
+The outage browser check exposed fictitious template biography, jobs, metrics and
+location in the original local fallback. The fallback now uses a public CMS
+snapshot captured on 2026-10-03 in both languages, including the actual public
+CV, social links and stable CMS assets. No expiring Instagram URLs are stored.
+Regression tests cover backend connection failure in both languages and verify
+real career/location data and correctly localized CV URLs. Partial CMS responses
+also fall back in the requested language. Refresh this snapshot when CMS content
+changes; it is a last-known public version, not a live replacement for the CMS.

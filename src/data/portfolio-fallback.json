@@ -1,0 +1,682 @@
+{
+  "es": {
+    "brand": "AS",
+    "brandLogoUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/ss0jp85mcf4450n/transparent_white_3urfotp3sz.webp",
+    "navLinks": [
+      {
+        "label": "Historia",
+        "href": "#about"
+      },
+      {
+        "label": "Carrera",
+        "href": "#experience"
+      },
+      {
+        "label": "Intereses",
+        "href": "#passions"
+      },
+      {
+        "label": "Contacto",
+        "href": "#contact"
+      }
+    ],
+    "resumeUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/gw771mejnky51wi/cv_es_public_schilling_alexander_vj702n9525.pdf",
+    "resumeLabel": "CV",
+    "languageSwitcher": {
+      "enLabel": "EN",
+      "esLabel": "ES"
+    },
+    "hero": {
+      "badge": "La persona detrás del lente",
+      "title": "Diseñando Sistemas,",
+      "highlightedTitle": "Capturando Momentos.",
+      "subtitle": "Un camino de aprendizaje, construyendo sistemas confiables, resolviendo problemas prácticos y explorando intereses fuera del trabajo, como la fotografía y las comunidades online.",
+      "primaryCta": {
+        "label": "Conoce mi historia",
+        "href": "#about"
+      },
+      "secondaryCta": {
+        "label": "Ve mi trabajo",
+        "href": "#experience"
+      },
+      "scrollLabel": "Desplazar",
+      "backgroundImageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/gtr1mhumut2uknr/the_witchers_trail4k_smhhr5x754.webp"
+    },
+    "about": {
+      "heading": "Hola, soy Alexander.",
+      "paragraphs": [
+        "Soy un profesional de software y datos al que le gusta tanto la parte técnica de construir sistemas como la parte humana de entender para qué sirven y a quién ayudan.",
+        "Comencé en desarrollo de software y, con el tiempo, fui moviéndome hacia data engineering, donde encontré un espacio que me acomoda mucho: mejorar procesos, trabajar con datos a escala y transformar tareas complejas en soluciones claras y confiables.",
+        "Fuera del trabajo, la fotografía se ha vuelto una de mis formas favoritas de bajar el ritmo y observar mejor. También dedico tiempo a comunidades de gaming y proyectos personales, lo que me ha enseñado bastante sobre sistemas, personas y construcción a largo plazo."
+      ],
+      "statusTitle": "Estado",
+      "statusLabel": "Trabajando con orgullo",
+      "portraitUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/x8wllzax01zzkyl/asp_5_jf2kqiv54q.webp",
+      "features": [
+        {
+          "title": "Curiosidad",
+          "description": "Siempre aprendiendo desde la práctica.",
+          "iconKey": "curiosity"
+        },
+        {
+          "title": "Liderazgo",
+          "description": "Creciendo con responsabilidad y colaboración.",
+          "iconKey": "leadership"
+        }
+      ]
+    },
+    "experienceSection": {
+      "eyebrow": "El camino recorrido",
+      "title": "Trayectoria",
+      "highlightedTitle": "Profesional",
+      "description": "Mi camino comenzó en desarrollo de software y con el tiempo evolucionó hacia data engineering. Hoy me enfoco en construir sistemas confiables, mejorar procesos y crear soluciones claras y útiles.",
+      "nowLabel": "Ahora",
+      "rolesLabel": "roles"
+    },
+    "experienceShowMoreLabel": "Ver hitos anteriores",
+    "experience": [
+      {
+        "period": "Dic 2024 - Actualidad",
+        "role": "Ingeniero de Datos Senior",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Híbrido",
+        "highlights": [
+          {
+            "text": "Diseño, desarrollo y evolución de soluciones ETL/ELT en Azure Databricks con Apache Spark SQL, Python y PySpark.",
+            "iconKey": "rocket_launch"
+          },
+          {
+            "text": "Procesamiento de entrada y salida de archivos estructurados TXT, CSV y Parquet, priorizando rendimiento, optimización y mantenibilidad.",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Integración de flujos con Azure Data Factory y Azure Data Lake Storage, además de automatización y modernización de procesos manuales o legacy.",
+            "iconKey": "architecture"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/q6dv1sm42gdz88r/cslpj9kj2tar_dth770bmk7.webp"
+      },
+      {
+        "period": "Jun 2023 - Nov 2024",
+        "role": "Ingeniero de Datos (vía ACL)",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Híbrido",
+        "highlights": [
+          {
+            "text": "Desarrollo e integración de procesos ETL en el ecosistema Azure, trabajando con Azure Data Factory, Apache Spark y Databricks.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Ingestión y transformación de archivos TXT, CSV y Parquet, fortaleciendo robustez operativa y reduciendo procesos manuales.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/b3lk3rnce28h2t6/cs7t31wcjdxl_n6jh95noqz.webp"
+      },
+      {
+        "period": "Dic 2022 - Jun 2023",
+        "role": "Desarrollador de Microservicios Semi Senior (vía ACL)",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Híbrido",
+        "highlights": [
+          {
+            "text": "Desarrollo de microservicios con Java Spring Boot y arquitectura hexagonal.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Implementación de pruebas unitarias y de integración con JUnit y Mockito.",
+            "iconKey": "curiosity"
+          },
+          {
+            "text": "Creación de APIs REST, consumo de servicios web REST/SOAP y desarrollo de adaptadores productores/consumidores Kafka.",
+            "iconKey": "rocket_launch"
+          },
+          {
+            "text": "Despliegues en clústeres Kubernetes usando Docker y Rancher, trabajando bajo Scrum con Jira, Confluence y Bitbucket.",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/qnwqh49257e0dwt/cselkbsq5zf1_4qompl2s18.webp"
+      },
+      {
+        "period": "2023 - 2024",
+        "role": "Desarrollador externo",
+        "company": "ACL",
+        "companyUrl": "https://www.aclti.com/es/",
+        "companyLinkedin": "https://www.linkedin.com/company/acltecnologia/",
+        "modality": "Híbrido",
+        "highlights": [
+          {
+            "text": "Parte del Programa Profesionales Jóvenes realizando mi segunda práctica profesional y posterior trabajador externo proveyendo servicios a Cencosud Scotiabank.",
+            "iconKey": "groups"
+          },
+          {
+            "text": "Stack: MongoDB, Express.js, React, Node.js (MERN) y Java Spring Boot",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Desarrollo de habilidades blandas, manejo de conflictos y competencias laborales",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Presentaciones semanales a equipo de trabajo sobre proyectos y aprendizaje de herramientas y contenidos de desarrollo de software",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/f9hj3qyqr8x3uyf/acl_rovj1ywkca.webp"
+      },
+      {
+        "period": "Abr 2021 - Sep 2022",
+        "role": "Desarrollador de Software Full Stack",
+        "company": "Nutrialus",
+        "companyUrl": "",
+        "companyLinkedin": "",
+        "modality": "Remoto",
+        "highlights": [
+          {
+            "text": "Responsable del desarrollo de una aplicación móvil para nutricionistas y pacientes con React Native + Expo.",
+            "iconKey": "smartphone"
+          },
+          {
+            "text": "Desarrollo de funcionalidades para una aplicación web con backend Ruby on Rails y frontend React, integrando PostgreSQL, Elasticsearch y Redis.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Participación end-to-end en producto, cubriendo interfaz, lógica de negocio e integración de datos.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/zpr0q659d9h2alt/nutrialus_op786gymb3.webp"
+      },
+      {
+        "period": "Oct 2021 - Feb 2022",
+        "role": "Desarrollador Frontend",
+        "company": "eCmat",
+        "companyUrl": "https://ecmat.cl/",
+        "companyLinkedin": "https://www.linkedin.com/company/ecmatchile/",
+        "modality": "Remoto",
+        "highlights": [
+          {
+            "text": "Desarrollo de funcionalidades frontend en Angular para una aplicación web del rubro construcción.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Web scraping con Selenium y Python.",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/jbi958olf2t3fe6/e_cmat_ooosdl1qca.webp"
+      },
+      {
+        "period": "Mar 2019 - Actualidad",
+        "role": "Cofundador y Desarrollador Principal",
+        "company": "Comunidad Hispano",
+        "companyUrl": "https://comunidad-hispano.com/",
+        "companyLinkedin": "https://www.linkedin.com/company/comunidad-hispano/",
+        "modality": "Remoto",
+        "highlights": [
+          {
+            "text": "Cofundación y liderazgo técnico de Comunidad Hispano, desarrollando soluciones reales para el ecosistema de FiveM Roleplay, la web de la comunidad, herramientas internas e integraciones con Discord.",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Diseño y mantención de un framework propio en Lua, además de desarrollo full stack con JavaScript, C#, React, Next.js, Vue, Go, HTML, CSS, MySQL y MariaDB.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Implementación de flujos de CI/CD, automatización de despliegues e infraestructura sobre Linux con Jenkins, GitHub Actions, Docker y Dokploy, impulsando la evolución técnica del proyecto a largo plazo.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/4efpz84h2pqw1m8/hispano_d0qxa7yidc.webp"
+      }
+    ],
+    "passions": {
+      "heading": "Fotografía",
+      "iconKey": "camera",
+      "description": "La fotografía es una parte personal importante de este sitio. Me gustan los retratos, la fotografía urbana y de calle, sobre todo esos momentos, luces y atmósferas que muchas veces pasan desapercibidos. Para mí, también es una forma de expresarme y de mirar con más atención lo que tengo alrededor.",
+      "instagramUrl": "https://www.instagram.com/schilling_lens",
+      "instagramHandle": "@schilling_lens",
+      "viewPostLabel": "Ver post",
+      "gallery": []
+    },
+    "gaming": {
+      "heading": "Comunidad Hispano",
+      "iconKey": "joystick",
+      "description": "Comunidad Hispano ha sido una de las partes más importantes de mi camino. He estado ahí desde el inicio como fundador y desarrollador principal durante 7 años , y ha sido mi mejor escuela para crecer tanto en lo técnico como en lo personal, especialmente con nuestro servidor de GTA V Roleplay .",
+      "stats": [
+        {
+          "label": "Sistemas",
+          "value": "Framework personalizado en LUA, desarrollo full stack y CI/CD"
+        },
+        {
+          "label": "Impacto",
+          "value": "6.000+ miembros"
+        }
+      ],
+      "links": [
+        {
+          "label": "Discord",
+          "href": "https://discord.gg/hispano",
+          "identifier": "hispano_discord"
+        },
+        {
+          "label": "Web",
+          "href": "https://comunidad-hispano.com/",
+          "identifier": "hispano_web"
+        },
+        {
+          "label": "Instagram",
+          "href": "https://www.instagram.com/comunidadhispano/",
+          "identifier": "hispano_instagram"
+        }
+      ],
+      "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/teol72dw5tnj48k/hispano_community_heroes_lsg2udz28w.webp"
+    },
+    "contact": {
+      "heading": "Empecemos",
+      "highlighted": "una conversación.",
+      "description": "Si llegaste aquí por data, fotografía, proyectos de comunidad o simple curiosidad, feliz de conversar. Siempre estoy abierto a una buena conversación.",
+      "ctas": [
+        {
+          "label": "Email",
+          "href": "mailto:contacto@alexanderschilling.cl"
+        },
+        {
+          "label": "LinkedIn",
+          "href": "https://www.linkedin.com/in/alexander-schilling-miranda/"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/alexander-schilling"
+        }
+      ],
+      "details": [
+        {
+          "label": "Ubicación",
+          "value": "Santiago, Chile 🇨🇱"
+        },
+        {
+          "label": "Leyendo",
+          "value": "El Caballero de la Armadura Oxidada"
+        }
+      ]
+    },
+    "seo": {
+      "title": "Alexander Schilling | Data Engineer, Fotografía y Comunidad",
+      "description": "Sitio personal de Alexander Schilling, Data Engineer en Santiago de Chile, donde comparte su trabajo en software y datos, fotografía y Comunidad Hispano.",
+      "openGraphDescription": "Conoce un poco más sobre Alexander Schilling a través de su trabajo en data engineering, fotografía y Comunidad Hispano, en un portafolio personal que mezcla tecnología, creatividad y comunidad.",
+      "siteName": "Alexander Schilling"
+    },
+    "manifest": {
+      "name": "Portafolio de Alexander Schilling",
+      "shortName": "Alexander",
+      "description": "Portafolio personal de Alexander Schilling con experiencia en data engineering, desarrollo de software, fotografía y proyectos de comunidad."
+    },
+    "footerBrand": "AS",
+    "footerNote": "Alexander • Sitio personal",
+    "footerLinks": [
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/alexander-schilling-miranda/",
+        "identifier": "linkedin"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/schilling_lens",
+        "identifier": "photo_instagram"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/alexander-schilling",
+        "identifier": "github"
+      }
+    ]
+  },
+  "en": {
+    "brand": "AS",
+    "brandLogoUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/ss0jp85mcf4450n/transparent_white_z04mgc8jsz.webp",
+    "navLinks": [
+      {
+        "label": "Story",
+        "href": "#about"
+      },
+      {
+        "label": "Career",
+        "href": "#experience"
+      },
+      {
+        "label": "Interests",
+        "href": "#passions"
+      },
+      {
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ],
+    "resumeUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/gw771mejnky51wi/cv_en_public_schilling_alexander_gebb59bwqe.pdf",
+    "resumeLabel": "Resume",
+    "languageSwitcher": {
+      "enLabel": "EN",
+      "esLabel": "ES"
+    },
+    "hero": {
+      "badge": "The person behind the lens",
+      "title": "Crafting Systems,",
+      "highlightedTitle": "Capturing Moments.",
+      "subtitle": "A journey of learning and enjoying building reliable systems, solving practical problems, and exploring interests outside work like photography and online communities.",
+      "primaryCta": {
+        "label": "Read my story",
+        "href": "#about"
+      },
+      "secondaryCta": {
+        "label": "See my work",
+        "href": "#experience"
+      },
+      "scrollLabel": "Scroll",
+      "backgroundImageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/gtr1mhumut2uknr/the_witchers_trail4k_tmng7khbew.webp"
+    },
+    "about": {
+      "heading": "Hello, I'm Alexander.",
+      "paragraphs": [
+        "I'm a software and data professional who enjoys both the technical side of building systems and the human side of understanding why they matter.",
+        "I started in software development and, over time, moved into data engineering, where I found a space that fits me well: improving processes, working with data at scale, and turning complex tasks into clear and reliable solutions.",
+        "Outside of work, photography has become one of my favorite ways to slow down and pay attention. I also spend time around gaming communities and personal projects, which has taught me a lot about systems, people, and long-term building."
+      ],
+      "statusTitle": "Status",
+      "statusLabel": "Proudly working",
+      "portraitUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/x8wllzax01zzkyl/asp_5_yic2f6dd32.webp",
+      "features": [
+        {
+          "title": "Curiosity",
+          "description": "Always learning through practice.",
+          "iconKey": "curiosity"
+        },
+        {
+          "title": "Leadership",
+          "description": "Growing through ownership and collaboration.",
+          "iconKey": "leadership"
+        }
+      ]
+    },
+    "experienceSection": {
+      "eyebrow": "The path traveled",
+      "title": "Professional",
+      "highlightedTitle": "Journey",
+      "description": "My path started in software development and naturally grew into data engineering. Today, I focus on building reliable systems, improving processes, and creating solutions that are practical and clear.",
+      "nowLabel": "Now",
+      "rolesLabel": "roles"
+    },
+    "experienceShowMoreLabel": "View prior milestones",
+    "experience": [
+      {
+        "period": "Dec 2024 - Present",
+        "role": "Senior Data Engineer",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Hybrid",
+        "highlights": [
+          {
+            "text": "Design, development, and evolution of ETL/ELT solutions in Azure Databricks using Apache Spark SQL, Python, and PySpark.",
+            "iconKey": "rocket_launch"
+          },
+          {
+            "text": "Input and output processing of structured TXT, CSV, and Parquet files, prioritizing performance,  optimization, and maintainability.",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Integration of workflows with Azure Data Factory and Azure Data Lake Storage, plus automation and modernization of manual or legacy processes.",
+            "iconKey": "architecture"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/q6dv1sm42gdz88r/cslpj9kj2tar_dth770bmk7.webp"
+      },
+      {
+        "period": "Jun 2023 - Nov 2024",
+        "role": "Data Engineer (through ACL)",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Hybrid",
+        "highlights": [
+          {
+            "text": "Development and integration of ETL processes in the Azure ecosystem, working with Azure Data Factory, Apache Spark, and Databricks.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Ingestion and transformation of TXT, CSV, and Parquet files, strengthening operational robustness and reducing manual processes.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/b3lk3rnce28h2t6/cs7t31wcjdxl_n6jh95noqz.webp"
+      },
+      {
+        "period": "Dec 2022 - Jun 2023",
+        "role": "Semi Senior Microservices Developer (through ACL)",
+        "company": "Cencosud Scotiabank",
+        "companyUrl": "https://www.tarjetacencosud.cl/publico/home",
+        "companyLinkedin": "https://www.linkedin.com/company/cencosud-scotiabank/",
+        "modality": "Hybrid",
+        "highlights": [
+          {
+            "text": "Microservices development with Java Spring Boot and hexagonal architecture.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Implementation of unit and integration tests with JUnit and Mockito.",
+            "iconKey": "curiosity"
+          },
+          {
+            "text": "Creation of REST APIs, consumption of REST/SOAP web services, and development of Kafka producer/consumer adapters.",
+            "iconKey": "rocket_launch"
+          },
+          {
+            "text": "Deployments to Kubernetes clusters using Docker and Rancher, working under Scrum with Jira, Confluence, and Bitbucket.",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/qnwqh49257e0dwt/cselkbsq5zf1_4qompl2s18.webp"
+      },
+      {
+        "period": "Oct 2022 - Nov 2024",
+        "role": "External Developer",
+        "company": "ACL",
+        "companyUrl": "https://www.aclti.com/es/",
+        "companyLinkedin": "https://www.linkedin.com/company/acltecnologia/",
+        "modality": "Hybrid",
+        "highlights": [
+          {
+            "text": "Part of the Young Professionals Program, completing my second professional internship and later working as an external worker providing services to Cencosud Scotiabank.",
+            "iconKey": "groups"
+          },
+          {
+            "text": "Stack: MongoDB, Express.js, React, Node.js (MERN) and Java Spring Boot",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Development of soft skills, conflict management and work competencies",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Weekly presentations to the work team about projects and learning of tools and software development content",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/f9hj3qyqr8x3uyf/acl_rovj1ywkca.webp"
+      },
+      {
+        "period": "Apr 2021 - Sep 2022",
+        "role": "Full Stack Software Developer",
+        "company": "Nutrialus",
+        "companyUrl": "",
+        "companyLinkedin": "",
+        "modality": "Remote",
+        "highlights": [
+          {
+            "text": "Led the development of a mobile application for nutritionists and patients using React Native + Expo.",
+            "iconKey": "smartphone"
+          },
+          {
+            "text": "Development of features for a web application with a Ruby on Rails backend and React frontend, integrating PostgreSQL, Elasticsearch, and Redis.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "End-to-end product participation, covering interface, business logic, and data integration.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/zpr0q659d9h2alt/nutrialus_op786gymb3.webp"
+      },
+      {
+        "period": "Oct 2021 - Feb 2022",
+        "role": "Frontend Developer",
+        "company": "eCmat",
+        "companyUrl": "https://ecmat.cl/",
+        "companyLinkedin": "https://www.linkedin.com/company/ecmatchile/",
+        "modality": "Remote",
+        "highlights": [
+          {
+            "text": "Development of frontend features in Angular for a web application in the construction industry.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Web scraping with Selenium and Python.",
+            "iconKey": "insights"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/jbi958olf2t3fe6/e_cmat_ooosdl1qca.webp"
+      },
+      {
+        "period": "Mar 2019 - Present",
+        "role": "Co-Founder & Lead Developer",
+        "company": "Comunidad Hispano",
+        "companyUrl": "https://comunidad-hispano.com/",
+        "companyLinkedin": "https://www.linkedin.com/company/comunidad-hispano/",
+        "modality": "Remote",
+        "highlights": [
+          {
+            "text": "Co-founded and led the technical growth of Comunidad Hispano, building real solutions for the FiveM Roleplay ecosystem, the community website, internal tools, and Discord integrations.",
+            "iconKey": "bolt"
+          },
+          {
+            "text": "Designed and maintained a custom Lua framework while working across full-stack development with JavaScript, C#, React, Next.js, Vue, Go, HTML, CSS, MySQL, and MariaDB.",
+            "iconKey": "architecture"
+          },
+          {
+            "text": "Implemented CI/CD workflows, deployment automation, and Linux-based infrastructure using Jenkins, GitHub Actions, Docker, and Dokploy, supporting the long-term evolution of the project.",
+            "iconKey": "rocket_launch"
+          }
+        ],
+        "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_career/4efpz84h2pqw1m8/hispano_d0qxa7yidc.webp"
+      }
+    ],
+    "passions": {
+      "heading": "Photography",
+      "iconKey": "camera",
+      "description": "Photography is a personal side of this site. I enjoy portraits, street photography, and urban scenes, especially the small moments, light, and atmosphere that often go unnoticed. For me, it is both a creative outlet and a way to pay closer attention to the world around me.",
+      "instagramUrl": "https://www.instagram.com/schilling_lens",
+      "instagramHandle": "@schilling_lens",
+      "viewPostLabel": "View post",
+      "gallery": []
+    },
+    "gaming": {
+      "heading": "Comunidad Hispano",
+      "iconKey": "joystick",
+      "description": "Comunidad Hispano has been one of the most important parts of my journey. I’ve been there from the beginning as a founder and lead developer for 7 years , and it has been my best school for growing both technically and personally, especially with our GTA V Roleplay server.",
+      "stats": [
+        {
+          "label": "Systems",
+          "value": "Custom LUA framework, full stack development, and CI/CD"
+        },
+        {
+          "label": "Impact",
+          "value": "6,000+ members"
+        }
+      ],
+      "links": [
+        {
+          "label": "Discord",
+          "href": "https://discord.gg/hispano",
+          "identifier": "hispano_discord"
+        },
+        {
+          "label": "Web",
+          "href": "https://comunidad-hispano.com/",
+          "identifier": "hispano_web"
+        },
+        {
+          "label": "Instagram",
+          "href": "https://www.instagram.com/comunidadhispano/",
+          "identifier": "hispano_instagram"
+        }
+      ],
+      "imageUrl": "https://cms.alexanderschilling.cl/api/files/portfolio_files/teol72dw5tnj48k/hispano_community_heroes_n8tnca394e.webp"
+    },
+    "contact": {
+      "heading": "Let's start a",
+      "highlighted": "conversation.",
+      "description": "If you're here because of data, photography, community projects, or simple curiosity, feel free to reach out. I'm always open to a good conversation.",
+      "ctas": [
+        {
+          "label": "Email",
+          "href": "mailto:contacto@alexanderschilling.cl"
+        },
+        {
+          "label": "LinkedIn",
+          "href": "https://www.linkedin.com/in/alexander-schilling-miranda/"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/alexander-schilling"
+        }
+      ],
+      "details": [
+        {
+          "label": "Base",
+          "value": "Santiago, Chile 🇨🇱"
+        },
+        {
+          "label": "Currently Reading",
+          "value": "The Knight in Rusty Armor"
+        }
+      ]
+    },
+    "seo": {
+      "title": "Alexander Schilling | Data Engineer, Photographer & Community Builder",
+      "description": "Personal website of Alexander Schilling, a Data Engineer from Santiago, Chile, sharing his work in software and data, photography, and Comunidad Hispano.",
+      "openGraphDescription": "Get to know Alexander Schilling through his work in data engineering, photography, and Comunidad Hispano — a personal portfolio shaped by technology, creativity, and community.",
+      "siteName": "Alexander Schilling"
+    },
+    "manifest": {
+      "name": "Alexander Schilling Portfolio",
+      "shortName": "Alexander",
+      "description": "Personal portfolio of Alexander Schilling, featuring data engineering, software development, photography, and community projects."
+    },
+    "footerBrand": "AS",
+    "footerNote": "Alexander • Personal website",
+    "footerLinks": [
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/alexander-schilling-miranda/",
+        "identifier": "linkedin"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/schilling_lens",
+        "identifier": "photo_instagram"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/alexander-schilling",
+        "identifier": "github"
+      }
+    ]
+  }
+}

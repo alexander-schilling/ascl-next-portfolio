@@ -11,7 +11,6 @@ import { PassionsSection } from "@/components/sections/passions-section";
 import { MissingContentAlert } from "@/components/ui/missing-content-alert";
 import { SUPPORTED_LANGUAGES, isSupportedLanguage } from "@/lib/i18n";
 import { getPortfolioData } from "@/lib/portfolio-api";
-import { siteContent as templateContent } from "@/data/portfolio";
 
 // Force dynamic rendering so that PORTFOLIO_API_BASE_URL and other server-side
 // env vars are read from the container's runtime environment on every request,
@@ -35,10 +34,6 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
   }
 
   const { siteContent, diagnostics } = await getPortfolioData(lang);
-  // Template stock photos are not Alexander's gallery. Keep CMS photos as the
-  // fallback; while Instagram loads, show an honest loading state instead.
-  const templatePhotos = new Set(templateContent.passions.gallery.map((photo) => photo.imageUrl));
-  const passions = { ...siteContent.passions, gallery: siteContent.passions.gallery.filter((photo) => !templatePhotos.has(photo.imageUrl)) };
 
   return (
     <div lang={lang} className="flex min-h-[100dvh] flex-col bg-background text-on-background font-body selection:bg-primary/30">
@@ -66,7 +61,7 @@ export default async function LocalizedHome({ params }: LocalizedHomeProps) {
           nowLabel={siteContent.experienceSection.nowLabel}
           rolesLabel={siteContent.experienceSection.rolesLabel}
         />
-        <PassionsSection content={passions} lang={lang} />
+        <PassionsSection content={siteContent.passions} lang={lang} />
         <GamingSection content={siteContent.gaming} />
         <ContactSection content={siteContent.contact} />
       </main>
